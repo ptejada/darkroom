@@ -12,6 +12,7 @@ Use composer to install the library in your project
 ```
 composer require ptejada/imager
 ```
+**Note:** The composer package is not yet live so the above command won't work.
 
 ## Getting Started
 The library API is inspired by the options and actions that an image editor GUI would have. The result is a fluent and 
@@ -58,8 +59,8 @@ Render the image to the standard output with its corresponding HTTP headers:
  $image->render();
  ```
  
- ### Available Recipes
- #### Crop
+ ## Available Recipes
+ ### Crop
  Crop the image using a custom viewport dimension and position.
  
  **Modifiers:**
@@ -67,7 +68,7 @@ Render the image to the standard output with its corresponding HTTP headers:
  - `square( dimension )` - Creates square viewport with specified dimension
  - `at( x, y )` - Position the upper left corner of the viewport.
   
- #### Resize
+ ### Resize
 Resize the image to different dimensions while respecting the original aspect ratio unless the `distort` modifier is used.
 
  **Modifiers:**
