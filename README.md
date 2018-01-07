@@ -11,7 +11,7 @@ The Darkroom library has the following requirements:
 The library is still under development but you can still give it try.
 Use composer to install the library in your project:
 ```
-composer require ptejada/darkroom:dev-master
+composer require darkroom/darkroom:dev-master
 ```
 
 ## Getting Started

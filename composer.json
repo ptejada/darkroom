@@ -1,5 +1,5 @@
 {
-    "name": "ptejada/darkroom",
+    "name": "darkroom/darkroom",
     "description": "A PHP GD OOP wrapper to sample, crop, resize and manipulate images",
     "keywords": [
         "GD Wrapper",
