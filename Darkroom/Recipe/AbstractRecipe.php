@@ -1,13 +1,13 @@
 <?php
 
-namespace Imager\Recipe;
+namespace Darkroom\Recipe;
 
-use Imager\ImageEditor;
+use Darkroom\ImageEditor;
 
 /**
  * Class AbstractRecipe
  *
- * @package Imager\Recipe
+ * @package Darkroom\Recipe
  */
 abstract class AbstractRecipe
 {

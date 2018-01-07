@@ -1,8 +1,8 @@
 <?php
 
-namespace Imager\Storage;
+namespace Darkroom\Storage;
 
-use Imager\File;
+use Darkroom\File;
 
 class ImageReference
 {

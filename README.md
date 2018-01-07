@@ -1,18 +1,18 @@
-# Imager [In Development]
-Imager is a PHP GD wrapper library to easily manipulate images. The core functionality of the library is implemented 
+# Darkroom [In Development]
+Darkroom is a GD wrapper library to easily manipulate images in PHP. The core functionality of the library is implemented 
 in the form of recipes which makes extending the image editor natural and intuitive.
 
 ## Requirements
-The Imager library has the following requirements:
+The Darkroom library has the following requirements:
 - PHP 5.6+
 - GD Extension
 
 ### Installation
-Use composer to install the library in your project
+The library is still under development but you can still give it try.
+Use composer to install the library in your project:
 ```
-composer require ptejada/imager
+composer require ptejada/darkroom:dev-master
 ```
-**Note:** The composer package is not yet live so the above command won't work.
 
 ## Getting Started
 The library API is inspired by the options and actions that an image editor GUI would have. The result is a fluent and 
@@ -24,7 +24,7 @@ is use to create the *Image* object(s) and the *Recipes* are the actions that ma
 ### Code Examples
 Create new editor:
 ```php
-$editor = new \Imager\Editor();   
+$editor = new \Darkroom\Editor();   
 ```
 Open an image:
 ```php
@@ -81,7 +81,7 @@ Resize the image to different dimensions while respecting the original aspect ra
 
 ## TODO
 - [ ] Complete the `Resize` recipe fill modifiers.
-- [ ] Add configurations to the main `Imager\Editor`.
+- [ ] Add configurations to the main `Darkroom\Editor`.
 - [ ] Finalize the `Filesystem` storage.
 - [ ] Implement registration system for custom recipes.
 - [ ] Add unit test for the core functionality.

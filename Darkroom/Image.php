@@ -1,6 +1,6 @@
 <?php
 
-namespace Imager;
+namespace Darkroom;
 
 class Image
 {

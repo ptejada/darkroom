@@ -1,13 +1,13 @@
 <?php
 
-namespace Imager\Recipe;
+namespace Darkroom\Recipe;
 
-use Imager\Image;
+use Darkroom\Image;
 
 /**
  * Class Resize resides an image
  *
- * @package Imager\Recipe
+ * @package Darkroom\Recipe
  */
 class Resize extends AbstractRecipe
 {

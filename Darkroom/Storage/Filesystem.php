@@ -1,8 +1,8 @@
 <?php
 
-namespace Imager\Storage;
+namespace Darkroom\Storage;
 
-use Imager\Image;
+use Darkroom\Image;
 
 class Filesystem
 {

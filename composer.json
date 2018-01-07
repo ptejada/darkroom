@@ -1,5 +1,5 @@
 {
-    "name": "ptejada/imager",
+    "name": "ptejada/darkroom",
     "description": "A PHP GD OOP wrapper to sample, crop, resize and manipulate images",
     "keywords": [
         "GD Wrapper",
@@ -17,7 +17,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Imager\\": "Imager"
+            "Darkroom\\": "Darkroom"
         }
     },
     "require": {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Imager\Recipe;
+namespace Darkroom\Recipe;
 
 /**
  * Class Crop crops an image
  *
- * @package Imager\Recipe
+ * @package Darkroom\Recipe
  */
 class Crop extends AbstractRecipe
 {

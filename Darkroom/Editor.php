@@ -1,13 +1,13 @@
 <?php
 
-namespace Imager;
+namespace Darkroom;
 
-use Imager\Storage\Filesystem;
+use Darkroom\Storage\Filesystem;
 
 /**
  * Class Editor
  *
- * @package Imager
+ * @package Darkroom
  */
 class Editor
 {

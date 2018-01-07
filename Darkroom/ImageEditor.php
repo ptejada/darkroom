@@ -1,17 +1,17 @@
 <?php
 
-namespace Imager;
+namespace Darkroom;
 
-use Imager\Recipe\AbstractRecipe;
-use Imager\Recipe\Crop;
-use Imager\Recipe\Resize;
+use Darkroom\Recipe\AbstractRecipe;
+use Darkroom\Recipe\Crop;
+use Darkroom\Recipe\Resize;
 
 /**
  * Class ImageEditor
  * @method Crop crop() Crop the image at the specified dimensions
  * @method Resize resize() Resize the image
  *
- * @package Imager
+ * @package Darkroom
  */
 class ImageEditor
 {
@@ -62,7 +62,7 @@ class ImageEditor
 
     public function __call($name, $arguments)
     {
-        $className = '\Imager\Recipe\\' . ucfirst($name);
+        $className = '\Darkroom\Recipe\\' . ucfirst($name);
 
         if (class_exists($className) && is_subclass_of($className, AbstractRecipe::class)) {
             // TODO: Check if implements interface

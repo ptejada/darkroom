@@ -1,11 +1,11 @@
 <?php
 
-namespace Imager;
+namespace Darkroom;
 
 /**
  * Class File
  *
- * @package Imager
+ * @package Darkroom
  */
 class File
 {
