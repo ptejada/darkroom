@@ -23,6 +23,8 @@ class Resize extends AbstractRecipe
     protected $height;
     /** @var int New image width in pixels */
     protected $width;
+    /** @var int The decimal percent to resize the image by */
+    protected $decimalPercent = 1;
 
     /**
      * Set the dimensions of the new image
@@ -67,10 +69,13 @@ class Resize extends AbstractRecipe
      */
     public function by($percent)
     {
-        $this->mode = self::MODE_RATIO;
+        if ($percent > 1) {
+            $this->distort();
+        } else {
+            $this->mode = self::MODE_RATIO;
+        }
 
-        $this->width  = $this->editor->image()->width() * $percent;
-        $this->height = $this->editor->image()->height() * $percent;
+        $this->decimalPercent = $percent;
         return $this;
     }
 
@@ -83,7 +88,7 @@ class Resize extends AbstractRecipe
      */
     public function withImageFill(Image $image)
     {
-        $this->mode = self::MODE_IMAGE_FILL;
+        $this->mode      = self::MODE_IMAGE_FILL;
         $this->fillImage = $image;
         return $this;
     }
@@ -109,7 +114,11 @@ class Resize extends AbstractRecipe
      */
     public function distort()
     {
-        $this->mode = self::MODE_DISTORT;
+        if ($this->isMode(self::MODE_FILL)) {
+            $this->mode = $this->mode | self::MODE_DISTORT;
+        } else {
+            $this->mode = self::MODE_DISTORT;
+        }
         return $this;
     }
 
@@ -120,6 +129,11 @@ class Resize extends AbstractRecipe
     {
         $image = $this->editor->image();
 
+        if (!$this->height && !$this->width && $this->decimalPercent) {
+            $this->height = $image->height() * $this->decimalPercent;
+            $this->width  = $image->width() * $this->decimalPercent;
+        }
+
         $source_x = $source_y = 0;
         $target_x = $target_y = 0;
 
@@ -128,24 +142,19 @@ class Resize extends AbstractRecipe
 
         $newWidth = $newHeight = 0;
 
-        if ($this->isMode(self::MODE_RATIO)) {
+        if ($this->isMode(self::MODE_RATIO | self::MODE_DISTORT)) {
             list($newWidth, $newHeight) = $this->newAspectSize();
         }
 
         if ($this->isMode(self::MODE_FILL)) {
-            $newWidth  = $this->width;
-            $newHeight = $this->height;
+            $newWidth  = $this->width ?: ($this->height * $source_width) / $source_height;
+            $newHeight = $this->height ?: ($this->width * $source_height) / $source_width;
 
             list($sample_width, $sample_height) = $this->newAspectSize();
 
             // Center the sample in the new image
             $target_x = abs($sample_width - $newWidth) / 2;
             $target_y = abs($sample_height - $newHeight) / 2;
-        }
-
-        if ($this->isMode(self::MODE_DISTORT)) {
-            $newWidth  = $this->width;
-            $newHeight = $this->height;
         }
 
         if (empty($sample_width)) {
@@ -194,20 +203,28 @@ class Resize extends AbstractRecipe
      *
      * @return int[]
      */
-    protected function newAspectSize()
+    function newAspectSize()
     {
         $image = $this->editor->image();
+
+        $max_width  = $this->width;
+        $max_height = $this->height;
 
         $original_width  = $image->width();
         $original_height = $image->height();
 
-        if ($this->width xor $this->height) {
-            $new_width  = $this->width ?: ($this->height * $original_width) / $original_height;
-            $new_height = $this->height ?: ($this->width * $original_height) / $original_width;
+        if ($this->isMode(self::MODE_DISTORT)) {
+            $new_width  = $max_width;
+            $new_height = $max_height;
         } else {
-            $new_width  = $this->width;
-            $new_height = $this->height;
+            $new_width  = $original_width > $max_width ? $max_width : $original_width;
+            $new_height = $original_height > $max_height ? $max_height : $original_width;
+        }
 
+        if ($new_width xor $new_height) {
+            $new_width  = $new_width ?: ($new_height * $original_width) / $original_height;
+            $new_height = $new_height ?: ($new_width * $original_height) / $original_width;
+        } else {
             if ($original_width > $new_width || $original_height > $new_height) {
                 if ($original_width > $new_width) {
                     $new_height = ($original_height / $original_width) * $new_height;
@@ -219,6 +236,6 @@ class Resize extends AbstractRecipe
             }
         }
 
-        return [$new_width, $new_height];
+        return [round($new_width), round($new_height)];
     }
 }
