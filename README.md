@@ -2,6 +2,10 @@
 Darkroom is a GD wrapper library to easily manipulate images in PHP. The core functionality of the library is implemented 
 in the form of recipes which makes extending the image editor natural and intuitive.
 
+[![Build Status](https://img.shields.io/travis/ptejada/darkroom/master.svg?style=flat)](https://travis-ci.org/ptejada/darkroom)
+[![GitHub issues](https://img.shields.io/github/issues/ptejada/darkroom.svg)](https://github.com/ptejada/darkroom/issues)
+[![GitHub license](https://img.shields.io/github/license/ptejada/darkroom.svg)](https://github.com/ptejada/darkroom/blob/master/LICENSE)
+
 ## Requirements
 The Darkroom library has the following requirements:
 - PHP 5.6+
@@ -22,13 +26,9 @@ There are three major components you should be aware of: The *Editor*, *Image* a
 is use to create the *Image* object(s) and the *Recipes* are the actions that manipulate the image like crop and resize.
 
 ### Code Examples
-Create new editor:
+Use the editor to open an image:
 ```php
-$editor = new \Darkroom\Editor();   
-```
-Open an image:
-```php
-$image = $editor->open('image.jpg');   
+$image = \Darkroom\Editor::open('image.jpg');   
 ```
 
 Simple image crop:
@@ -85,6 +85,7 @@ Resize the image to different dimensions while respecting the original aspect ra
 - [ ] Finalize the `Filesystem` storage.
 - [ ] Implement registration system for custom recipes.
 - [ ] Add unit test for the core functionality.
+- [ ] Add `Transform` recipe to perform image rotation, mirror and flip.
 
 
 

@@ -3,6 +3,7 @@
 namespace Darkroom\Recipe;
 
 use Darkroom\Image;
+use Darkroom\Utility\Color;
 
 /**
  * Class Resize resides an image
@@ -25,6 +26,10 @@ class Resize extends AbstractRecipe
     protected $width;
     /** @var int The decimal percent to resize the image by */
     protected $decimalPercent = 1;
+    /** @var Color */
+    protected $color;
+    /** @var Image */
+    protected $fillImage;
 
     /**
      * Set the dimensions of the new image
@@ -96,14 +101,14 @@ class Resize extends AbstractRecipe
     /**
      * Keep original aspect ratio and use a color as the background
      *
-     * @param string $color The background color
+     * @param string|int[]|Color $color The background color in Hex, RGB, HTML named colors or Color object
      *
      * @return Resize
      */
     public function withColorFill($color)
     {
         $this->mode  = self::MODE_COLOR_FILL;
-        $this->color = $color;
+        $this->color = ($color instanceof Color) ? $color : new Color($color);
         return $this;
     }
 
@@ -166,7 +171,7 @@ class Resize extends AbstractRecipe
         }
 
         if ($newHeight && $newWidth) {
-            $newImage = imagecreatetruecolor($newWidth, $newHeight);
+            $newImage = $this->background($newWidth, $newHeight);
             imagecopyresampled(
                 $newImage,
                 $image->resource(),
@@ -199,11 +204,38 @@ class Resize extends AbstractRecipe
     }
 
     /**
+     * Generate background image
+     *
+     * @param int $width  Background width
+     * @param int $height Background height
+     *
+     * @return resource
+     */
+    protected function background($width, $height)
+    {
+        $image = imagecreatetruecolor($width, $height);
+
+        if ($this->isMode(self::MODE_COLOR_FILL) && $this->color) {
+            list($red, $green, $blue) = $this->color->rgb();
+            $customColor = imagecolorallocate($image, $red, $green, $blue);
+            imagefilledrectangle($image, 0, 0, $width, $height, $customColor);
+        }
+
+        if ($this->isMode(self::MODE_IMAGE_FILL) && $this->fillImage) {
+            $this->fillImage->edit()->resize()->to($width, $height)->distort()->apply();
+            // TODO: Check if we must destroy the image first
+            $image = $this->fillImage->resource();
+        }
+
+        return $image;
+    }
+
+    /**
      * Calculate the dimensions of the new image sample while respecting the canvas size and original aspect ratio
      *
      * @return int[]
      */
-    function newAspectSize()
+    protected function newAspectSize()
     {
         $image = $this->editor->image();
 
@@ -225,12 +257,14 @@ class Resize extends AbstractRecipe
             $new_width  = $new_width ?: ($new_height * $original_width) / $original_height;
             $new_height = $new_height ?: ($new_width * $original_height) / $original_width;
         } else {
-            if ($original_width > $new_width || $original_height > $new_height) {
-                if ($original_width > $new_width) {
-                    $new_height = ($original_height / $original_width) * $new_height;
-                } else {
-                    if ($original_height > $new_height) {
-                        $new_width = ($original_width / $original_height) * $new_width;
+            if (!$this->isMode(self::MODE_DISTORT)) {
+                if ($original_width > $new_width || $original_height > $new_height) {
+                    if ($original_width > $new_width) {
+                        $new_height = ($original_height / $original_width) * $new_height;
+                    } else {
+                        if ($original_height > $new_height) {
+                            $new_width = ($original_width / $original_height) * $new_width;
+                        }
                     }
                 }
             }

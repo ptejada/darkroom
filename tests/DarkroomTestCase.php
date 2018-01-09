@@ -7,7 +7,7 @@ class DarkroomTestCase extends \PHPUnit\Framework\TestCase
 
     protected function setUp()
     {
-        $this->editor = new \Darkroom\Editor();
+        $this->editor = \Darkroom\Editor::getInstance();
         parent::setUp();
     }
 

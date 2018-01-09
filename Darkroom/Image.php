@@ -2,10 +2,13 @@
 
 namespace Darkroom;
 
+/**
+ * Class Image
+ *
+ * @package Darkroom
+ */
 class Image
 {
-    /** @var Editor The editor instance */
-    protected $editor;
     /** @var File The original file reference */
     protected $file;
     /** @var resource The image resource */
@@ -17,10 +20,9 @@ class Image
     /** @var ImageEditor Image editor with recipes */
     protected $imageEditor;
 
-    public function __construct(Editor $editor, File $file)
+    public function __construct(File $file)
     {
-        $this->editor = $editor;
-        $this->file   = $file;
+        $this->file = $file;
     }
 
     /**
@@ -134,7 +136,7 @@ class Image
      */
     public function save()
     {
-        return $this->editor->saveSnapshot($this);
+        return Editor::saveSnapshot($this);
     }
 
     /**

@@ -17,9 +17,25 @@ class Editor
     /**
      * Editor constructor.
      */
-    public function __construct()
+    private function __construct()
     {
         $this->storage = new Filesystem();
+    }
+
+    /**
+     * The editor instance
+     *
+     * @return static
+     */
+    public static function getInstance()
+    {
+        static $instance;
+
+        if (empty($instance)) {
+            $instance = new static();
+        }
+
+        return $instance;
     }
 
     /**
@@ -29,11 +45,11 @@ class Editor
      *
      * @return Image
      */
-    public function open($imagePath)
+    public static function open($imagePath)
     {
         $file = new File($imagePath);
         if ($file->exists()) {
-            return new Image($this, $file);
+            return new Image($file);
         }
 
         // TODO: Handle non existing files
@@ -44,9 +60,9 @@ class Editor
      *
      * @return Storage\ImageReference
      */
-    public function saveSnapshot(Image $image)
+    public static function saveSnapshot(Image $image)
     {
-        return $this->storage()->saveImageSnapshot($image);
+        return static::getInstance()->storage()->saveImageSnapshot($image);
     }
 
     /**
