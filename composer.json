@@ -1,9 +1,10 @@
 {
     "name": "darkroom/darkroom",
-    "description": "A PHP library to sample, crop, resize and manipulate images",
+    "description": "A PHP library to transform, crop, resize and manipulate images",
     "keywords": [
-        "GD Wrapper",
-        "image editor",
+        "gd",
+        "image",
+        "transform",
         "resize",
         "crop"
     ],
@@ -11,7 +12,7 @@
     "license": "MIT",
     "config": {
         "platform": {
-            "php": "5.6"
+            "php": "5.4"
         }
     },
     "authors": [
@@ -26,10 +27,10 @@
         }
     },
     "require": {
-        "php": "^5.6 || ^7.0",
+        "php": "^5.4 || ^7.0",
         "ext-gd": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.7"
+        "phpunit/phpunit": "^4.8"
     }
 }

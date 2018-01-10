@@ -1,6 +1,6 @@
 # Darkroom [In Development]
-Darkroom is a GD wrapper library to easily manipulate images in PHP. The core functionality of the library is implemented 
-in the form of recipes which makes extending the image editor natural and intuitive.
+Darkroom is a library that facilitates image manipulation operations in PHP. The core functionality of the library is 
+implemented in the form of recipes which makes extending the image editor natural and intuitive.
 
 [![Build Status](https://img.shields.io/travis/ptejada/darkroom/master.svg?style=flat)](https://travis-ci.org/ptejada/darkroom)
 [![GitHub issues](https://img.shields.io/github/issues/ptejada/darkroom.svg)](https://github.com/ptejada/darkroom/issues)
@@ -8,8 +8,8 @@ in the form of recipes which makes extending the image editor natural and intuit
 
 ## Requirements
 The Darkroom library has the following requirements:
-- PHP 5.6+
-- GD Extension
+- PHP 5.4+
+- GD Library
 
 ### Installation
 The library is still under development but you can still give it try.
