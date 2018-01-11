@@ -91,6 +91,33 @@ class Image
     }
 
     /**
+     * Convert the image to different format
+     * @param int $imageType
+     */
+    public function convertTo($imageType)
+    {
+        $this->resource();
+        switch ($imageType) {
+            case 'jpg':
+            case 'jpeg':
+            case IMAGETYPE_JPEG:
+                $this->type = IMAGETYPE_JPEG;
+                $this->renderer = 'imagejpeg';
+                break;
+            case 'png':
+            case IMAGETYPE_PNG:
+                $this->type = IMAGETYPE_PNG;
+                $this->renderer = 'imagepng';
+                break;
+            case 'gif':
+            case IMAGETYPE_GIF:
+                $this->type = IMAGETYPE_GIF;
+                $this->renderer = 'imagegif';
+                break;
+        }
+    }
+
+    /**
      * Start editing the image
      *
      * @return ImageEditor The image editor interface
