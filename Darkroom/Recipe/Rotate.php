@@ -11,10 +11,16 @@ use Darkroom\Utility\Color;
  */
 class Rotate extends AbstractRecipe
 {
+    const FILL_COLOR = 1;
+    const FILL_TRANSPARENT = 2;
+
     /** @var int The angle to rotate the image by */
     protected $angle = 0;
     /** @var Color The background color */
     protected $color;
+    /** @var bool Flag to whether the fill be transparent */
+    protected $transparent;
+    protected $mode;
 
     /**
      * Rotate the image to left
@@ -46,9 +52,23 @@ class Rotate extends AbstractRecipe
      * @param string|Color $color Background color
      * @return $this
      */
-    public function withColorFill($color)
+    public function withColorFill($color = 'black')
     {
+        $this->mode  = self::FILL_COLOR;
         $this->color = $color instanceof Color ? $color : new Color($color);
+        return $this;
+    }
+
+    /**
+     * Make the uncovered area transparent
+     *
+     * @return $this
+     */
+    public function withTransparentFill()
+    {
+        $this->mode        = self::FILL_TRANSPARENT;
+        $this->transparent = true;
+
         return $this;
     }
 
@@ -57,10 +77,26 @@ class Rotate extends AbstractRecipe
      */
     public function execute()
     {
-        // TODO: Add color transparency as option
         if ($this->angle) {
             $image = $this->editor->image()->resource();
-            return imagerotate($image, $this->angle, $this->color->color($image));
+
+            if (!$this->color) {
+                $this->color = new Color(0);
+            }
+
+            if ($this->transparent) {
+                $color = imagecolorallocatealpha($image, 0, 0, 0, 127);
+                imagealphablending($image, false);
+                imagesavealpha($image, true);
+
+                // Convert image to PNG
+                $this->editor->image()->convertTo(IMAGETYPE_PNG);
+            } else {
+                $color = $this->color->color($image);
+            }
+
+            // TODO: Look into the usage for the last argument
+            return imagerotate($image, $this->angle, $color);
         }
 
         return null;

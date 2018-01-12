@@ -162,6 +162,7 @@ class Color
         'yellow'               => 'FFFF00',
         'yellowgreen'          => '9ACD32',
     ];
+    protected $transparency_flag = false;
 
     /**
      * Color constructor.
@@ -222,6 +223,24 @@ class Color
         }
 
         return [hexdec($red), hexdec($green), hexdec($blue)];
+    }
+
+    /**
+     * Mark the color as transparent
+     */
+    public function transparent()
+    {
+        $this->transparency_flag = true;
+    }
+
+    /**
+     * Check if the color has been flagged as transparent
+     *
+     * @return bool
+     */
+    public function isTransparent()
+    {
+        return $this->transparency_flag;
     }
 
     /**
