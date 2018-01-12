@@ -74,17 +74,37 @@ class Crop extends AbstractRecipe
      */
     public function execute()
     {
-        $image = $this->editor->image();
+        $image  = $this->editor->image();
+        $width  = $this->width ?: ($image->width() - $this->at_y);
+        $height = $this->height ?: ($image->height() - $this->at_x);
 
-        $img = imagecrop(
-            $image->resource(),
-            [
-                'x'      => $this->at_x,
-                'y'      => $this->at_y,
-                'width'  => $this->width ?: ($image->width() - $this->at_y),
-                'height' => $this->height ?: ($image->height() - $this->at_x),
-            ]
-        );
+        if (function_exists('imagecrop')) {
+            // PHP 5.5+ Crop
+            $img    = imagecrop(
+                $image->resource(),
+                [
+                    'x'      => $this->at_x,
+                    'y'      => $this->at_y,
+                    'width'  => $width,
+                    'height' => $height,
+                ]
+            );
+        } else {
+            // PHP 5.4 Crop
+            $img = imagecreatetruecolor($width, $height);
+            imagecopyresampled(
+                $img,
+                $image->resource(),
+                0,
+                0,
+                $this->at_x,
+                $this->at_y,
+                $width,
+                $height,
+                $width,
+                $height
+            );
+        }
 
         return $img;
     }

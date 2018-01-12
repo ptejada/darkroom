@@ -75,17 +75,27 @@ Resize the image to different dimensions while respecting the original aspect ra
  - `to( with, height )` - Set the dimensions of the new image. The *height* is optional.
  - `heightTo( height )` - Set the height of the new image. The width will be automatically calculated.
  - `by( percent )` - Set the dimensions of the new image using a decimal percentage where 0.5 is 50% or half the size of the original image.
- - `withImageFill( image )` - Set an image to use as the background if the new image has a different ratio.
- - `withColorFill( color )` - Set a solid color to use as the background if the new image has a different ratio.
+ - `withImageFill( image )` - Use an image for the unused area if the new image has a different ratio.
+ - `withColorFill( color )` - Use solid color for the unused area if the new image has a different aspect ratio.
+ - `withTransparentFill()` - Makes the background of the unused area transparent.
  - `distort()` - Ignores the original aspect ratio and resize the image exactly to the specified dimensions.
+ 
+ ### Rotate
+ Rotate the image either left or right based on an angle.
+ 
+ **Modifiers:**
+  - `left( degrees )` - Rotate image to the left.
+  - `right( degrees )` - Rotate image to the Right.
+  - `withColorFill( color )` - Set a fill background color. 
+  - `withTransparentFill()` - Makes the background transparent. 
 
 ## TODO
-- [ ] Complete the `Resize` recipe fill modifiers.
+- [ X ] Complete the `Resize` recipe fill modifiers.
+- [ X ] Add `Rotate` recipe to perform image rotation.
 - [ ] Add configurations to the main `Darkroom\Editor`.
 - [ ] Finalize the `Filesystem` storage.
 - [ ] Implement registration system for custom recipes.
 - [ ] Add unit test for the core functionality.
-- [ ] Add `Transform` recipe to perform image rotation, mirror and flip.
 
 
 

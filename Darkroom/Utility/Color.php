@@ -13,6 +13,9 @@ class Color
     /** @var int The color mode generator mode */
     protected $mode = self::MODE_ALLOCATE;
 
+    /** @var bool The color transparency flag */
+    protected $transparency_flag = false;
+
     protected static $colorNames = [
         'aliceblue'            => 'F0F8FF',
         'antiquewhite'         => 'FAEBD7',
@@ -162,7 +165,6 @@ class Color
         'yellow'               => 'FFFF00',
         'yellowgreen'          => '9ACD32',
     ];
-    protected $transparency_flag = false;
 
     /**
      * Color constructor.

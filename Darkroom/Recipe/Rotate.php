@@ -85,6 +85,7 @@ class Rotate extends AbstractRecipe
             }
 
             if ($this->transparent) {
+                // TODO: Make the transparency work with the GIF images
                 $color = imagecolorallocatealpha($image, 0, 0, 0, 127);
                 imagealphablending($image, false);
                 imagesavealpha($image, true);
@@ -96,7 +97,7 @@ class Rotate extends AbstractRecipe
             }
 
             // TODO: Look into the usage for the last argument
-            return imagerotate($image, $this->angle, $color);
+            return imagerotate($image, $this->angle, $color, 0);
         }
 
         return null;

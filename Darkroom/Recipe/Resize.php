@@ -12,11 +12,12 @@ use Darkroom\Utility\Color;
  */
 class Resize extends AbstractRecipe
 {
-    const MODE_COLOR_FILL = 1;
-    const MODE_IMAGE_FILL = 2;
-    const MODE_FILL       = 3;
-    const MODE_DISTORT    = 4;
-    const MODE_RATIO      = 8;
+    const MODE_COLOR_FILL       = 1;
+    const MODE_IMAGE_FILL       = 2;
+    const MODE_TRANSPARENT_FILL = 16;
+    const MODE_FILL             = 19;
+    const MODE_DISTORT          = 4;
+    const MODE_RATIO            = 8;
 
     /** @var int The resize mode */
     protected $mode = self::MODE_RATIO;
@@ -110,6 +111,14 @@ class Resize extends AbstractRecipe
         $this->mode  = self::MODE_COLOR_FILL;
         $this->color = ($color instanceof Color) ? $color : new Color($color);
         return $this;
+    }
+
+    /**
+     * Makes the background fill color transparent
+     */
+    public function withTransparentFill()
+    {
+        $this->mode = self::MODE_TRANSPARENT_FILL;
     }
 
     /**
@@ -219,6 +228,19 @@ class Resize extends AbstractRecipe
             list($red, $green, $blue) = $this->color->rgb();
             $customColor = imagecolorallocate($image, $red, $green, $blue);
             imagefilledrectangle($image, 0, 0, $width, $height, $customColor);
+        }
+
+        if ($this->isMode(self::MODE_TRANSPARENT_FILL)) {
+            // TODO: Make the transparency work with the GIF images
+            $transparent = imagecolorallocatealpha($image, 0, 0, 0, 127);
+            imagealphablending($image, false);
+            imagesavealpha($image, true);
+
+            imagefilledrectangle($image, 0, 0, $width, $height, $transparent);
+            imagecolortransparent($image, $transparent);
+
+            // Convert image to PNG
+            $this->editor->image()->convertTo(IMAGETYPE_PNG);
         }
 
         if ($this->isMode(self::MODE_IMAGE_FILL) && $this->fillImage) {

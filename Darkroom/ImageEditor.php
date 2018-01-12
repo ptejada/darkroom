@@ -66,7 +66,7 @@ class ImageEditor
     {
         $className = '\Darkroom\Recipe\\' . ucfirst($name);
 
-        if (class_exists($className) && is_subclass_of($className, AbstractRecipe::class)) {
+        if (class_exists($className) && is_subclass_of($className, '\Darkroom\Recipe\AbstractRecipe')) {
             // TODO: Check if implements interface
             return $this->queue(new $className($this, $this->updater));
         }
