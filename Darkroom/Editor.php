@@ -56,6 +56,20 @@ class Editor
     }
 
     /**
+     * Create new blank image canvas
+     *
+     * @param int $width  Width in pixels. If only the width is provided a square canvas will be created.
+     * @param int $height Height in pixels
+     *
+     * @return ImageResource
+     */
+    public static function canvas($width, $height = 0)
+    {
+        $height = $height ?: $width;
+        return new ImageResource(imagecreatetruecolor($width, $height));
+    }
+
+    /**
      * @param Image $image
      *
      * @return Storage\ImageReference

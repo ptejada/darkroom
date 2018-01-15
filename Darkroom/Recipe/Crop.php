@@ -2,6 +2,8 @@
 
 namespace Darkroom\Recipe;
 
+use Darkroom\Editor;
+
 /**
  * Class Crop crops an image
  *
@@ -80,7 +82,7 @@ class Crop extends AbstractRecipe
 
         if (function_exists('imagecrop')) {
             // PHP 5.5+ Crop
-            $img    = imagecrop(
+            $img = imagecrop(
                 $image->resource(),
                 [
                     'x'      => $this->at_x,
@@ -91,7 +93,7 @@ class Crop extends AbstractRecipe
             );
         } else {
             // PHP 5.4 Crop
-            $img = imagecreatetruecolor($width, $height);
+            $img = Editor::canvas($width, $height)->resource();
             imagecopyresampled(
                 $img,
                 $image->resource(),

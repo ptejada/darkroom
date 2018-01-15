@@ -27,10 +27,10 @@ class ImageEditor
     /**
      * ImageEditor constructor.
      *
-     * @param Image    $image
+     * @param ImageResource $image
      * @param callable $callback
      */
-    public function __construct(Image $image, callable $callback)
+    public function __construct(ImageResource $image, callable $callback)
     {
         $this->image       = $image;
         $this->updater     = $callback;

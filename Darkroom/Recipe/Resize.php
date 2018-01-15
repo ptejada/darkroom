@@ -2,6 +2,7 @@
 
 namespace Darkroom\Recipe;
 
+use Darkroom\Editor;
 use Darkroom\Image;
 use Darkroom\Utility\Color;
 
@@ -222,7 +223,7 @@ class Resize extends AbstractRecipe
      */
     protected function background($width, $height)
     {
-        $image = imagecreatetruecolor($width, $height);
+        $image = Editor::canvas($width, $height)->resource();
 
         if ($this->isMode(self::MODE_COLOR_FILL) && $this->color) {
             list($red, $green, $blue) = $this->color->rgb();
