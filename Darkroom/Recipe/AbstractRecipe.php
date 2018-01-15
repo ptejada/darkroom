@@ -3,6 +3,7 @@
 namespace Darkroom\Recipe;
 
 use Darkroom\ImageEditor;
+use Darkroom\ImageResource;
 
 /**
  * Class AbstractRecipe
@@ -32,7 +33,7 @@ abstract class AbstractRecipe
     /**
      * Apply the updates to the original image
      *
-     * @return resource The updated image resource
+     * @return ImageResource The updated image resource
      */
     abstract public function execute();
 
@@ -46,7 +47,11 @@ abstract class AbstractRecipe
         $imgRef = $this->execute();
 
         $this->appliedFlag = true;
-        call_user_func($this->updater, $imgRef);
+        if ($imgRef instanceof ImageResource) {
+            call_user_func($this->updater, $imgRef->detach());
+        } else {
+            call_user_func($this->updater, $imgRef);
+        }
 
         return $this->editor;
     }

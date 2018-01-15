@@ -84,6 +84,20 @@ class ImageResource
     }
 
     /**
+     * Detach the internal GD resource from the object
+     * Note: After detaching this object will most likely become un usable
+     *
+     * @return resource
+     */
+    public function detach()
+    {
+        $resource = $this->resource();
+        $this->resource = null;
+
+        return $resource;
+    }
+
+    /**
      * Convert the image to different format
      * @param int $imageType
      */

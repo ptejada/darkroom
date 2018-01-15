@@ -93,9 +93,9 @@ class Crop extends AbstractRecipe
             );
         } else {
             // PHP 5.4 Crop
-            $img = Editor::canvas($width, $height)->resource();
+            $img = Editor::canvas($width, $height);
             imagecopyresampled(
-                $img,
+                $img->resource(),
                 $image->resource(),
                 0,
                 0,

@@ -4,6 +4,7 @@ namespace Darkroom\Recipe;
 
 use Darkroom\Editor;
 use Darkroom\Image;
+use Darkroom\ImageResource;
 use Darkroom\Utility\Color;
 
 /**
@@ -183,7 +184,7 @@ class Resize extends AbstractRecipe
         if ($newHeight && $newWidth) {
             $newImage = $this->background($newWidth, $newHeight);
             imagecopyresampled(
-                $newImage,
+                $newImage->resource(),
                 $image->resource(),
                 $target_x,
                 $target_y,
@@ -219,26 +220,26 @@ class Resize extends AbstractRecipe
      * @param int $width  Background width
      * @param int $height Background height
      *
-     * @return resource
+     * @return ImageResource
      */
     protected function background($width, $height)
     {
-        $image = Editor::canvas($width, $height)->resource();
+        $image = Editor::canvas($width, $height);
 
         if ($this->isMode(self::MODE_COLOR_FILL) && $this->color) {
             list($red, $green, $blue) = $this->color->rgb();
-            $customColor = imagecolorallocate($image, $red, $green, $blue);
-            imagefilledrectangle($image, 0, 0, $width, $height, $customColor);
+            $customColor = imagecolorallocate($image->resource(), $red, $green, $blue);
+            imagefilledrectangle($image->resource(), 0, 0, $width, $height, $customColor);
         }
 
         if ($this->isMode(self::MODE_TRANSPARENT_FILL)) {
             // TODO: Make the transparency work with the GIF images
-            $transparent = imagecolorallocatealpha($image, 0, 0, 0, 127);
-            imagealphablending($image, false);
-            imagesavealpha($image, true);
+            $transparent = imagecolorallocatealpha($image->resource(), 0, 0, 0, 127);
+            imagealphablending($image->resource(), false);
+            imagesavealpha($image->resource(), true);
 
-            imagefilledrectangle($image, 0, 0, $width, $height, $transparent);
-            imagecolortransparent($image, $transparent);
+            imagefilledrectangle($image->resource(), 0, 0, $width, $height, $transparent);
+            imagecolortransparent($image->resource(), $transparent);
 
             // Convert image to PNG
             $this->editor->image()->convertTo(IMAGETYPE_PNG);
