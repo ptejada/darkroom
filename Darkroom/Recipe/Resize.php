@@ -121,6 +121,8 @@ class Resize extends AbstractRecipe
     public function withTransparentFill()
     {
         $this->mode = self::MODE_TRANSPARENT_FILL;
+
+        return $this;
     }
 
     /**

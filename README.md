@@ -87,11 +87,19 @@ Resize the image to different dimensions while respecting the original aspect ra
   - `left( degrees )` - Rotate image to the left.
   - `right( degrees )` - Rotate image to the Right.
   - `withColorFill( color )` - Set a fill background color. 
-  - `withTransparentFill()` - Makes the background transparent. 
+  - `withTransparentFill()` - Makes the background transparent.
+  
+### Stamp
+Stamp image with another position at one or more positions. Can be use to place watermarks in images.
+
+**Modifiers:**
+- `with( image )` - Sets the image to stamp with.
+- `at( x, y )` - Coordinates where to stamp the image. This modifier could be call multiple times to stamp at multiple locations
+- `opacity( level )` - Sets the opacity level for the stamp where 1 is opaque and 0 is transparent 
 
 ## TODO
-- [ X ] Complete the `Resize` recipe fill modifiers.
-- [ X ] Add `Rotate` recipe to perform image rotation.
+- [X] Complete the `Resize` recipe fill modifiers.
+- [X] Add `Rotate` recipe to perform image rotation.
 - [ ] Add configurations to the main `Darkroom\Editor`.
 - [ ] Finalize the `Filesystem` storage.
 - [ ] Implement registration system for custom recipes.

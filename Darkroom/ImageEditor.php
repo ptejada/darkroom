@@ -6,12 +6,14 @@ use Darkroom\Recipe\AbstractRecipe;
 use Darkroom\Recipe\Crop;
 use Darkroom\Recipe\Resize;
 use Darkroom\Recipe\Rotate;
+use Darkroom\Recipe\Stamp;
 
 /**
  * Class ImageEditor
  * @method Crop crop() Crop the image at the specified dimensions
  * @method Resize resize() Resize the image
  * @method Rotate rotate() Rotate the image
+ * @method Stamp stamp() Stamp the image with another image
  *
  * @package Darkroom
  */
