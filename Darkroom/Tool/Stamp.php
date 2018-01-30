@@ -1,15 +1,15 @@
 <?php
 
-namespace Darkroom\Recipe;
+namespace Darkroom\Tool;
 
 use Darkroom\ImageResource;
 
 /**
  * Class Stamp inserts an image into another
  *
- * @package Darkroom\Recipe
+ * @package Darkroom\Tool
  */
-class Stamp extends AbstractRecipe
+class Stamp extends AbstractTool
 {
     /** @var ImageResource */
     protected $stamp;

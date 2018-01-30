@@ -1,6 +1,6 @@
 <?php
 
-namespace Darkroom\Recipe;
+namespace Darkroom\Tool;
 
 use Darkroom\Editor;
 use Darkroom\Image;
@@ -10,9 +10,9 @@ use Darkroom\Utility\Color;
 /**
  * Class Resize resides an image
  *
- * @package Darkroom\Recipe
+ * @package Darkroom\Tool
  */
-class Resize extends AbstractRecipe
+class Resize extends AbstractTool
 {
     const MODE_COLOR_FILL       = 1;
     const MODE_IMAGE_FILL       = 2;

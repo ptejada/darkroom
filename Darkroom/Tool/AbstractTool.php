@@ -1,22 +1,22 @@
 <?php
 
-namespace Darkroom\Recipe;
+namespace Darkroom\Tool;
 
 use Darkroom\ImageEditor;
 use Darkroom\ImageResource;
 
 /**
- * Class AbstractRecipe
+ * Class AbstractTool
  *
- * @package Darkroom\Recipe
+ * @package Darkroom\Tool
  */
-abstract class AbstractRecipe
+abstract class AbstractTool
 {
     /** @var ImageEditor The image editor */
     protected $editor;
     /** @var callable The callback to update the original image resource */
     protected $updater;
-    /** @var bool Flag to keep track whether the recipe has been applied or not */
+    /** @var bool Flag to keep track whether the tool has been applied or not */
     protected $appliedFlag = false;
 
     /**

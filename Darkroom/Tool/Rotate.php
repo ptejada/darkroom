@@ -1,15 +1,15 @@
 <?php
 
-namespace Darkroom\Recipe;
+namespace Darkroom\Tool;
 
 use Darkroom\Utility\Color;
 
 /**
  * Class Rotate rotates an image
  *
- * @package Darkroom\Recipe
+ * @package Darkroom\Tool
  */
-class Rotate extends AbstractRecipe
+class Rotate extends AbstractTool
 {
     const FILL_COLOR = 1;
     const FILL_TRANSPARENT = 2;

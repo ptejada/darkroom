@@ -1,6 +1,6 @@
 # Darkroom [In Development]
-Darkroom is a library that facilitates image manipulation operations in PHP. The core functionality of the library is 
-implemented in the form of recipes which makes extending the image editor natural and intuitive.
+Darkroom is a library that facilitates simple image manipulation operations in PHP. The core functionality of the library is 
+implemented in the form of _tools_ which makes extending the image editor natural and intuitive.
 
 [![Build Status](https://img.shields.io/travis/ptejada/darkroom/master.svg?style=flat)](https://travis-ci.org/ptejada/darkroom)
 [![GitHub issues](https://img.shields.io/github/issues/ptejada/darkroom.svg)](https://github.com/ptejada/darkroom/issues)
@@ -22,8 +22,8 @@ composer require darkroom/darkroom:dev-master
 The library API is inspired by the options and actions that an image editor GUI would have. The result is a fluent and 
 descriptive OOP driven API which replaces the long functions with a lot of arguments.
 
-There are three major components you should be aware of: The *Editor*, *Image* and *Recipes*. In a nutshell, the *Editor*
-is use to create the *Image* object(s) and the *Recipes* are the actions that manipulate the image like crop and resize.
+There are three major components you should be aware of: The *Editor*, *Image* and *Tools*. In a nutshell, the *Editor*
+is use to create the *Image* object(s) and the *Tools* are the actions that manipulate the image like crop and resize.
 
 ### Code Examples
 Use the editor to open an image:
@@ -59,7 +59,7 @@ Render the image to the standard output with its corresponding HTTP headers:
  $image->render();
  ```
  
- ## Available Recipes
+ ## Available Tools
  ### Crop
  Crop the image using a custom viewport dimension and position.
  
@@ -98,11 +98,11 @@ Stamp image with another position at one or more positions. Can be use to place 
 - `opacity( level )` - Sets the opacity level for the stamp where 1 is opaque and 0 is transparent 
 
 ## TODO
-- [X] Complete the `Resize` recipe fill modifiers.
-- [X] Add `Rotate` recipe to perform image rotation.
+- [X] Complete the `Resize` tool fill modifiers.
+- [X] Add `Rotate` tool to perform image rotation.
 - [ ] Add configurations to the main `Darkroom\Editor`.
 - [ ] Finalize the `Filesystem` storage.
-- [ ] Implement registration system for custom recipes.
+- [ ] Implement registration system for custom tools.
 - [ ] Add unit test for the core functionality.
 
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Darkroom\Recipe;
+namespace Darkroom\Tool;
 
 class ResizeTest extends \DarkroomTestCase
 {

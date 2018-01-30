@@ -15,7 +15,7 @@ class ImageResource
     protected $type;
     /** @var callable The function to render the image */
     protected $renderer;
-    /** @var ImageEditor Image editor with recipes */
+    /** @var ImageEditor Image editor with tools */
     protected $imageEditor;
 
     /**

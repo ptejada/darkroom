@@ -2,11 +2,11 @@
 
 namespace Darkroom;
 
-use Darkroom\Recipe\AbstractRecipe;
-use Darkroom\Recipe\Crop;
-use Darkroom\Recipe\Resize;
-use Darkroom\Recipe\Rotate;
-use Darkroom\Recipe\Stamp;
+use Darkroom\Tool\AbstractTool;
+use Darkroom\Tool\Crop;
+use Darkroom\Tool\Resize;
+use Darkroom\Tool\Rotate;
+use Darkroom\Tool\Stamp;
 
 /**
  * Class ImageEditor
@@ -23,8 +23,8 @@ class ImageEditor
     protected $image;
     /** @var callable The callback to update the original image */
     protected $updater;
-    /** @var AbstractRecipe[] */
-    protected $recipeQueue;
+    /** @var AbstractTool[] */
+    protected $editQueue;
 
     /**
      * ImageEditor constructor.
@@ -34,9 +34,9 @@ class ImageEditor
      */
     public function __construct(ImageResource $image, callable $callback)
     {
-        $this->image       = $image;
-        $this->updater     = $callback;
-        $this->recipeQueue = [];
+        $this->image     = $image;
+        $this->updater   = $callback;
+        $this->editQueue = [];
     }
 
     /**
@@ -54,21 +54,21 @@ class ImageEditor
      */
     public function apply()
     {
-        foreach ($this->recipeQueue as $recipe) {
-            if (!$recipe->applied()) {
-                $recipe->apply();
+        foreach ($this->editQueue as $edit) {
+            if (!$edit->applied()) {
+                $edit->apply();
             }
         }
 
         // Clear the queue
-        $this->recipeQueue = [];
+        $this->editQueue = [];
     }
 
     public function __call($name, $arguments)
     {
-        $className = '\Darkroom\Recipe\\' . ucfirst($name);
+        $className = '\Darkroom\Tool\\' . ucfirst($name);
 
-        if (class_exists($className) && is_subclass_of($className, '\Darkroom\Recipe\AbstractRecipe')) {
+        if (class_exists($className) && is_subclass_of($className, '\Darkroom\Tool\AbstractTool')) {
             // TODO: Check if implements interface
             return $this->queue(new $className($this, $this->updater));
         }
@@ -78,15 +78,15 @@ class ImageEditor
     }
 
     /**
-     * Queues a new recipe to be applied
+     * Queues a new edit to be applied
      *
-     * @param AbstractRecipe $recipe
+     * @param AbstractTool $edit
      *
-     * @return AbstractRecipe
+     * @return AbstractTool
      */
-    protected function queue($recipe)
+    protected function queue(AbstractTool $edit)
     {
-        $this->recipeQueue[] = $recipe;
-        return $recipe;
+        $this->editQueue[] = $edit;
+        return $edit;
     }
 }

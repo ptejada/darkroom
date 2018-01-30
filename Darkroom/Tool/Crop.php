@@ -1,15 +1,15 @@
 <?php
 
-namespace Darkroom\Recipe;
+namespace Darkroom\Tool;
 
 use Darkroom\Editor;
 
 /**
  * Class Crop crops an image
  *
- * @package Darkroom\Recipe
+ * @package Darkroom\Tool
  */
-class Crop extends AbstractRecipe
+class Crop extends AbstractTool
 {
     const TYPE_RECTANGLE = 1;
     // TODO: Implement the Oval crop
