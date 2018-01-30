@@ -2,12 +2,14 @@
 
 namespace Darkroom;
 
+use Darkroom\Utility\BoxInterface;
+
 /**
  * Class ResourceImage
  *
  * @package Darkroom
  */
-class ImageResource
+class ImageResource implements BoxInterface
 {
     /** @var resource The image resource */
     protected $resource;
@@ -30,7 +32,9 @@ class ImageResource
             $this->type     = $this->type ?: IMAGETYPE_PNG;
             $this->renderer = $this->renderer ?: 'imagepng';
         } else {
-            throw new \InvalidArgumentException('Argument 1 passed to ' . __METHOD__ . ' must be a resource, ' . gettype($source) . 'given.');
+            throw new \InvalidArgumentException(
+                'Argument 1 passed to ' . __METHOD__ . ' must be a resource, ' . gettype($source) . 'given.'
+            );
         }
     }
 
@@ -64,16 +68,6 @@ class ImageResource
     }
 
     /**
-     * Image file type extension
-     *
-     * @return string
-     */
-    protected function extension()
-    {
-        return image_type_to_extension($this->type());
-    }
-
-    /**
      * The image resource
      *
      * @return resource
@@ -91,7 +85,7 @@ class ImageResource
      */
     public function detach()
     {
-        $resource = $this->resource();
+        $resource       = $this->resource();
         $this->resource = null;
 
         return $resource;
@@ -99,6 +93,7 @@ class ImageResource
 
     /**
      * Convert the image to different format
+     *
      * @param int $imageType
      */
     public function convertTo($imageType)
@@ -107,17 +102,17 @@ class ImageResource
             case 'jpg':
             case 'jpeg':
             case IMAGETYPE_JPEG:
-                $this->type = IMAGETYPE_JPEG;
+                $this->type     = IMAGETYPE_JPEG;
                 $this->renderer = 'imagejpeg';
                 break;
             case 'png':
             case IMAGETYPE_PNG:
-                $this->type = IMAGETYPE_PNG;
+                $this->type     = IMAGETYPE_PNG;
                 $this->renderer = 'imagepng';
                 break;
             case 'gif':
             case IMAGETYPE_GIF:
-                $this->type = IMAGETYPE_GIF;
+                $this->type     = IMAGETYPE_GIF;
                 $this->renderer = 'imagegif';
                 break;
         }
@@ -155,6 +150,7 @@ class ImageResource
 
     /**
      * The image width in pixels
+     *
      * @return int
      */
     public function height()
@@ -170,6 +166,16 @@ class ImageResource
         if (is_resource($this->resource)) {
             imagedestroy($this->resource);
         }
+    }
+
+    /**
+     * Image file type extension
+     *
+     * @return string
+     */
+    protected function extension()
+    {
+        return image_type_to_extension($this->type());
     }
 
     /**

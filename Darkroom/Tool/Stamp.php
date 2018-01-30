@@ -34,7 +34,7 @@ class Stamp extends AbstractTool
 
     /**
      * Specify the where to position the stamp
-     *
+     * TODO: Add support for the position utility
      * @param int $x
      * @param int $y
      *

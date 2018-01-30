@@ -10,6 +10,7 @@ use Darkroom\Tool\Stamp;
 
 /**
  * Class ImageEditor
+ *
  * @method Crop crop() Crop the image at the specified dimensions
  * @method Resize resize() Resize the image
  * @method Rotate rotate() Rotate the image
