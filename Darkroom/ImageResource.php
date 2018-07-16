@@ -54,17 +54,17 @@ class ImageResource implements BoxInterface
     /**
      * Render the image to a file
      *
-     * @param $filePath
+     * @param string|resource $target File path or resource
      *
      * @return bool True on success, False on failure
      */
-    public function renderTo($filePath)
+    public function renderTo($target)
     {
         // Run any pending edits
         $this->edit()->apply();
 
         $resource = $this->resource();
-        return call_user_func($this->renderer, $resource, $filePath . '.' . $this->extension());
+        return call_user_func($this->renderer, $resource, $target);
     }
 
     /**

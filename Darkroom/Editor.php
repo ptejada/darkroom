@@ -2,7 +2,9 @@
 
 namespace Darkroom;
 
-use Darkroom\Storage\Filesystem;
+use Darkroom\Storage\ImageReference;
+use Darkroom\Storage\PathScheme;
+use League\Flysystem\Adapter\Local;
 
 /**
  * Class Editor
@@ -11,15 +13,17 @@ use Darkroom\Storage\Filesystem;
  */
 class Editor
 {
-    /** @var Filesystem The system to store the files */
+    /** @var \League\Flysystem\Filesystem The system to store the files */
     protected $storage;
+    /** @var PathScheme The path scheme */
+    protected $pathScheme;
 
     /**
      * Editor constructor.
      */
     private function __construct()
     {
-        $this->storage = new Filesystem();
+        $this->pathScheme = new PathScheme();
     }
 
     /**
@@ -73,19 +77,50 @@ class Editor
      * @param Image $image
      *
      * @return Storage\ImageReference
+     * @throws \League\Flysystem\FileExistsException
      */
     public static function saveSnapshot(Image $image)
     {
-        return static::getInstance()->storage()->saveImageSnapshot($image);
+        $editor   = static::getInstance();
+        $savePath = $editor->pathScheme->snapshot($image);
+        $buffer   = tmpfile();
+
+        $image->renderTo($buffer);
+        $editor->storage()->writeStream($savePath, $buffer);
+
+        if (is_resource($buffer)) {
+            fclose($buffer);
+        }
+
+        return new ImageReference($savePath);
     }
 
     /**
-     * The image storage
+     * Gets or configures the the storage filesystem
      *
-     * @return Filesystem
+     * @param \League\Flysystem\Filesystem|null $filesystem The optional filesystem to mount
+     *
+     * @return \League\Flysystem\Filesystem The mounted filesystem
      */
-    protected function storage()
+    public function storage(\League\Flysystem\Filesystem $filesystem = null)
     {
+        if ($filesystem) {
+            $this->storage = $filesystem;
+        }
+
+        if (empty($this->storage)) {
+            $vendorFolder = strpos(__DIR__, '/vendor/');
+            if ($vendorFolder) {
+                $path = substr(__DIR__, 0, $vendorFolder) . '/';
+            } else {
+                $path = realpath(__DIR__ . '/../') . '/public/store/';
+            }
+
+            $adapter = new Local($path);
+
+            $this->storage = new \League\Flysystem\Filesystem($adapter);
+        }
+
         return $this->storage;
     }
 }
