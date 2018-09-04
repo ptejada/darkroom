@@ -8,7 +8,7 @@ implemented in the form of _tools_ which makes extending the image editor natura
 
 ## Requirements
 The Darkroom library has the following requirements:
-- PHP 5.4+
+- PHP 5.6+
 - GD Library
 
 ### Installation
