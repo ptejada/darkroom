@@ -1,6 +1,8 @@
 <?php
 
-namespace Darkroom;
+namespace Darkroom\Tests;
+
+use Darkroom\Editor;
 
 class EditorTest extends \DarkroomTestCase
 {

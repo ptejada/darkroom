@@ -100,10 +100,5 @@ Stamp image with another position at one or more positions. Can be use to place 
 ## TODO
 - [X] Complete the `Resize` tool fill modifiers.
 - [X] Add `Rotate` tool to perform image rotation.
-- [ ] Add configurations to the main `Darkroom\Editor`.
-- [ ] Finalize the `Filesystem` storage.
 - [ ] Implement registration system for custom tools.
 - [ ] Add unit test for the core functionality.
-
-
-

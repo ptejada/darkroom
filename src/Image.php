@@ -50,11 +50,12 @@ class Image extends ImageResource
     /**
      * Save a snapshot of the image
      *
-     * @return Storage\ImageReference The reference to the image snapshot
+     * @param string $altPath Optional name path
+     * @return File
      */
-    public function save()
+    public function save($altPath = null)
     {
-        return Editor::saveSnapshot($this);
+        return Editor::saveAs($this, $altPath);
     }
 
     /**

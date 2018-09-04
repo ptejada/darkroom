@@ -56,15 +56,25 @@ class ImageResource implements BoxInterface
      *
      * @param string|resource $target File path or resource
      *
-     * @return bool True on success, False on failure
+     * @return File|Boolean A new file reference if saved to a the file system. A boolean flag if the $target is a resource
      */
     public function renderTo($target)
     {
         // Run any pending edits
         $this->edit()->apply();
-
         $resource = $this->resource();
-        return call_user_func($this->renderer, $resource, $target);
+
+        if (is_string($target)) {
+            $target .= '.' . $this->extension();
+        }
+
+        $saved = call_user_func($this->renderer, $resource, $target);
+
+        if (is_string($target)) {
+            return new File($target);
+        }
+
+        return $saved;
     }
 
     /**

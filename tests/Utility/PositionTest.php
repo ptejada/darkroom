@@ -1,6 +1,8 @@
 <?php
 
-namespace Darkroom\Utility;
+namespace Darkroom\Tests\Utility;
+
+use Darkroom\Utility\Position;
 
 class PositionTest extends \DarkroomTestCase
 {
