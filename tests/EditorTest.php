@@ -4,7 +4,7 @@ namespace Darkroom\Tests;
 
 use Darkroom\Editor;
 
-class EditorTest extends \DarkroomTestCase
+class EditorTest extends DarkroomTestCase
 {
     public function test_square_canvas()
     {

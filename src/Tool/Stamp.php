@@ -64,7 +64,7 @@ class Stamp extends AbstractTool
     /**
      * @inheritdoc
      */
-    public function execute()
+    protected function execute()
     {
         if ($this->stamp && ! empty($this->placements)) {
             $baseImage = $this->editor->image();

@@ -35,7 +35,7 @@ abstract class AbstractTool
      *
      * @return ImageResource The updated image resource
      */
-    abstract public function execute();
+    abstract protected function execute();
 
     /**
      * Saves the changes to the image

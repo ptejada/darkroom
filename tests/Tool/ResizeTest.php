@@ -2,7 +2,9 @@
 
 namespace Darkroom\Tests\Tool;
 
-class ResizeTest extends \DarkroomTestCase
+use Darkroom\Tests\DarkroomTestCase;
+
+class ResizeTest extends DarkroomTestCase
 {
     public function test_square_to_rectangle()
     {

@@ -2,9 +2,10 @@
 
 namespace Darkroom\Tests\Utility;
 
+use Darkroom\Tests\DarkroomTestCase;
 use Darkroom\Utility\Position;
 
-class PositionTest extends \DarkroomTestCase
+class PositionTest extends DarkroomTestCase
 {
 
     /**

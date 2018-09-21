@@ -143,7 +143,7 @@ class Resize extends AbstractTool
     /**
      * @inheritdoc
      */
-    public function execute()
+    protected function execute()
     {
         $image = $this->editor->image();
 

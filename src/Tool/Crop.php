@@ -74,7 +74,7 @@ class Crop extends AbstractTool
     /**
      * @inheritdoc
      */
-    public function execute()
+    protected function execute()
     {
         $image  = $this->editor->image();
         $width  = $this->width ?: ($image->width() - $this->at_y);

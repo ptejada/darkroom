@@ -75,7 +75,7 @@ class Rotate extends AbstractTool
     /**
      * @inheritdoc
      */
-    public function execute()
+    protected function execute()
     {
         if ($this->angle) {
             $image = $this->editor->image()->resource();

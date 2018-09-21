@@ -1,5 +1,7 @@
 <?php
 
+namespace Darkroom\Tests;
+
 class DarkroomTestCase extends \PHPUnit\Framework\TestCase
 {
     /** @var \Darkroom\Editor */
