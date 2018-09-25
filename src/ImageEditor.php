@@ -2,11 +2,11 @@
 
 namespace Darkroom;
 
-use Darkroom\Tool\AbstractTool;
 use Darkroom\Tool\Crop;
 use Darkroom\Tool\Resize;
 use Darkroom\Tool\Rotate;
 use Darkroom\Tool\Stamp;
+use Darkroom\Tool\Tool;
 
 /**
  * Class ImageEditor
@@ -24,7 +24,7 @@ class ImageEditor
     protected $image;
     /** @var callable The callback to update the original image */
     protected $updater;
-    /** @var AbstractTool[] */
+    /** @var Tool[] */
     protected $editQueue;
 
     /**
@@ -65,27 +65,35 @@ class ImageEditor
         $this->editQueue = [];
     }
 
-    public function __call($name, $arguments)
+    /**
+     * Proxy calls to the tools factory
+     *
+     * @param string $name The tool accessor name
+     * @param mixed[] $arguments initial params
+     *
+     * @return Tool
+     */
+    public function __call($name, $arguments = [])
     {
-        $className = '\Darkroom\Tool\\' . ucfirst($name);
+        if ($tool = Editor::makeTool($name, $this, $this->updater)) {
+            // Initialize tool
+            call_user_func_array([$tool, 'init'], $arguments);
 
-        if (class_exists($className) && is_subclass_of($className, '\Darkroom\Tool\AbstractTool')) {
-            // TODO: Check if implements interface
-            return $this->queue(new $className($this, $this->updater));
+            // Register instance
+            return $this->queue($tool);
         }
 
-        // TODO: Throw exception
-        return trigger_error(sprintf('Call to undefined function: %s::%s().', get_class($this), $name), E_USER_ERROR);
+        throw new \BadMethodCallException(sprintf('Call to undefined function: %s::%s().', get_class($this), $name));
     }
 
     /**
      * Queues a new edit to be applied
      *
-     * @param AbstractTool $edit
+     * @param Tool $edit
      *
-     * @return AbstractTool
+     * @return Tool
      */
-    protected function queue(AbstractTool $edit)
+    protected function queue(Tool $edit)
     {
         $this->editQueue[] = $edit;
         return $edit;

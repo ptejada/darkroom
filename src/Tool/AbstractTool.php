@@ -10,7 +10,7 @@ use Darkroom\ImageResource;
  *
  * @package Darkroom\Tool
  */
-abstract class AbstractTool
+abstract class AbstractTool implements Tool
 {
     /** @var ImageEditor The image editor */
     protected $editor;
@@ -28,6 +28,14 @@ abstract class AbstractTool
     {
         $this->editor  = $imageEditor;
         $this->updater = $callback;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        //
     }
 
     /**

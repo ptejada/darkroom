@@ -2,78 +2,64 @@
 
 namespace Darkroom;
 
+use Darkroom\Tool\Tool;
+
 /**
  * Class Editor
+ *
+ * @method static Image open($imagePath) Opens an image.
+ * @method static ImageResource canvas($width, $height) Creates a new blank canvas.
+ * @method static File save(Image $image) Saves an image with an auto generated name.
+ * @method static File saveAs(Image $image, $path) Saves an image to an specific path.
+ * @method static void registerTool($accessorName, $toolClass) Registers a new editor tool.
+ * @method static Tool makeTool($name, ImageEditor $toolClass, $updater) Create new tool instance by accessor name.
  *
  * @package Darkroom
  */
 class Editor
 {
-    /**
-     * The editor instance
-     *
-     * @return static
-     */
-    public static function getInstance()
-    {
-        static $instance;
+    /** @var Tool[] */
+    protected static $tools;
+    /** @var SuperEditor */
+    protected static $editorInstance;
 
-        if (empty($instance)) {
-            $instance = new static();
+    /**
+     * Proxies all static methods to instance
+     *
+     * @param string  $name   The method name
+     * @param mixed[] $params List of call parameters
+     *
+     * @return mixed
+     */
+    public static function __callStatic($name, $params = [])
+    {
+        $editor = self::editor();
+        if (method_exists($editor, $name)) {
+            return call_user_func_array([$editor, $name], $params);
         }
 
-        return $instance;
+        throw new \BadMethodCallException(sprintf('Call to undefined function: %s::%s().', get_class($editor), $name));
     }
 
     /**
-     * Opens an image
-     *
-     * @param string $imagePath Path to the image
-     *
-     * @return Image
+     * Internal editor instance
      */
-    public static function open($imagePath)
+    protected static function editor()
     {
-        $file = new File($imagePath);
-        if ($file->exists()) {
-            return new Image($file);
+        if (empty(self::$editorInstance)) {
+            self::$editorInstance = new SuperEditor();
         }
 
-        // TODO: Handle non existing files
+        return self::$editorInstance;
     }
 
     /**
-     * Create new blank image canvas
+     * Use alternative editor instance
      *
-     * @param int $width  Width in pixels. If only the width is provided a square canvas will be created.
-     * @param int $height Height in pixels
-     *
-     * @return ImageResource
+     * @param SuperEditor $editor An editor
      */
-    public static function canvas($width, $height = 0)
+    public static function useEditor(SuperEditor $editor)
     {
-        $height = $height ?: $width;
-        return new ImageResource(imagecreatetruecolor($width, $height));
-    }
-
-    /**
-     * @param Image $image
-     *
-     * @return File A reference of the saved file
-     */
-    public static function save(Image $image)
-    {
-        return self::saveAs($image, $image->file()->directory() . $image->file()->name());
-    }
-
-    /**
-     * @param Image $image
-     * @param null  $path
-     *
-     * @return File|Boolean A new file reference if saved to a the file system. A boolean flag if the $target is a resource
-     */
-    public static function saveAs(Image $image, $path = null)
-    {
-        return $image->renderTo($path);
+        self::$editorInstance = $editor;
     }
 }

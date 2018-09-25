@@ -2,6 +2,8 @@
 
 namespace Darkroom\Tests;
 
+use Darkroom\SuperEditor;
+
 class DarkroomTestCase extends \PHPUnit\Framework\TestCase
 {
     /** @var \Darkroom\Editor */
@@ -9,7 +11,7 @@ class DarkroomTestCase extends \PHPUnit\Framework\TestCase
 
     protected function setUp()
     {
-        $this->editor = \Darkroom\Editor::getInstance();
+        $this->editor = new SuperEditor();
         parent::setUp();
     }
 
