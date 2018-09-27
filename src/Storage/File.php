@@ -1,6 +1,6 @@
 <?php
 
-namespace Darkroom;
+namespace Darkroom\Storage;
 
 /**
  * Class File

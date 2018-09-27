@@ -2,6 +2,7 @@
 
 namespace Darkroom;
 
+use Darkroom\Storage\File;
 use Darkroom\Tool\Tool;
 
 /**
@@ -9,8 +10,7 @@ use Darkroom\Tool\Tool;
  *
  * @method static Image open($imagePath) Opens an image.
  * @method static ImageResource canvas($width, $height) Creates a new blank canvas.
- * @method static File save(Image $image) Saves an image with an auto generated name.
- * @method static File saveAs(Image $image, $path) Saves an image to an specific path.
+ * @method static File save(Image $image, $altName = null) Saves an image in the storage.
  * @method static void registerTool($accessorName, $toolClass) Registers a new editor tool.
  * @method static Tool makeTool($name, ImageEditor $toolClass, $updater) Create new tool instance by accessor name.
  *
@@ -20,7 +20,7 @@ class Editor
 {
     /** @var Tool[] */
     protected static $tools;
-    /** @var SuperEditor */
+    /** @var EditorConfig */
     protected static $editorInstance;
 
     /**
@@ -33,7 +33,7 @@ class Editor
      */
     public static function __callStatic($name, $params = [])
     {
-        $editor = self::editor();
+        $editor = self::config();
         if (method_exists($editor, $name)) {
             return call_user_func_array([$editor, $name], $params);
         }
@@ -42,12 +42,12 @@ class Editor
     }
 
     /**
-     * Internal editor instance
+     * Internal editor configuration
      */
-    protected static function editor()
+    public static function config()
     {
         if (empty(self::$editorInstance)) {
-            self::$editorInstance = new SuperEditor();
+            self::$editorInstance = new EditorConfig();
         }
 
         return self::$editorInstance;
@@ -56,9 +56,9 @@ class Editor
     /**
      * Use alternative editor instance
      *
-     * @param SuperEditor $editor An editor
+     * @param EditorConfig $editor An editor
      */
-    public static function useEditor(SuperEditor $editor)
+    public static function useEditor(EditorConfig $editor)
     {
         self::$editorInstance = $editor;
     }

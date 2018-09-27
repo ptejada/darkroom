@@ -2,6 +2,8 @@
 
 namespace Darkroom;
 
+use Darkroom\Storage\File;
+
 /**
  * Class Image
  *

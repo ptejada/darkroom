@@ -2,24 +2,26 @@
 
 namespace Darkroom;
 
+use Darkroom\Storage\File;
+use Darkroom\Storage\Storage;
+use Darkroom\Storage\Store;
 use Darkroom\Tool\Crop;
 use Darkroom\Tool\Resize;
 use Darkroom\Tool\Rotate;
 use Darkroom\Tool\Stamp;
 use Darkroom\Tool\Tool;
-use Darkroom\Utility\Str;
 
 /**
- * Class Editor
+ * Class EditorConfig
  *
  * @package Darkroom
  */
-class SuperEditor
+class EditorConfig
 {
     /** @var Tool[] The list of tools */
     protected $tools;
-    /** @var \Closure The file storage handler */
-    protected $storageHandler;
+    /** @var Storage Image storage */
+    protected $storage;
 
     /**
      * SuperEditor constructor initializes the list of built-in tools
@@ -33,12 +35,10 @@ class SuperEditor
             'stamp'  => Stamp::class,
         ];
 
-        $this->storageHandler = function (Image $image){
-            return Str::name('Y-m/%6-%4-%6');
-        };
-
         // Automatically registers new editor instance
         Editor::useEditor($this);
+
+        $this->storage = new Store();
     }
 
     /**
@@ -73,31 +73,26 @@ class SuperEditor
     }
 
     /**
-     * @param Image $image
+     * Saves an image in the storage
+     *
+     * @param Image  $image   The image reference
+     * @param string $altName Alternative file name
      *
      * @return File A reference of the saved file
      */
-    public function save(Image $image)
+    public function save(Image $image, $altName = null)
     {
-        $filePath = call_user_func($this->storageHandler, $image);
-        if (is_string($filePath)) {
-            $filePath .= '.' . $image->file()->extension();
-
-            return $this->saveAs($image, $image->file()->directory() . $filePath);
-        }
-
-        return $filePath;
+        return $this->storage->save($image, $altName);
     }
 
     /**
-     * @param Image $image
-     * @param null  $path
+     * The storage
      *
-     * @return File|Boolean A new file reference if saved to a the file system. A boolean flag if the $target is a resource
+     * @return Storage|Store
      */
-    public function saveAs(Image $image, $path = null)
+    public function storage()
     {
-        return $image->renderTo($path);
+        return $this->storage;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace Darkroom;
 
+use Darkroom\Storage\File;
 use Darkroom\Utility\BoxInterface;
 
 /**
