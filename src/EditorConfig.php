@@ -96,6 +96,16 @@ class EditorConfig
     }
 
     /**
+     * Updates the internal storage
+     *
+     * @param Storage $store Storage to use
+     */
+    public function useStorage(Storage $store)
+    {
+        $this->storage = $store;
+    }
+
+    /**
      * Register a new tool
      *
      * @param string $accessorName The name with which the tool will be accessed from the image editor

@@ -37,21 +37,25 @@ class Store implements Storage
      */
     public function save(Image $image, $altName = null)
     {
-        $path = $altName ? $this->basePath() . $altName : $this->newPath($image);
-        return $image->renderTo($path . '.' . $image->file()->extension());
+        $path = $altName ? $this->basePath() . $altName : $this->newPath($image, $altName);
+        if (is_string($path)) {
+            return $image->renderTo($path . '.' . $image->file()->extension());
+        }
+        return $path;
     }
 
     /**
      * Generates a new path name
      *
-     * @param Image $image Image reference
+     * @param Image  $image   Image reference
+     * @param string $altName Alternative name
      *
      * @return string
      */
-    public function newPath(Image $image)
+    public function newPath(Image $image, $altName = null)
     {
         if (is_callable($this->pathGenerator)) {
-            return call_user_func($this->pathGenerator, $image, $this->basePath());
+            return call_user_func($this->pathGenerator, $image, $this->basePath(), $altName);
         }
 
         return $this->basePath() . Str::name($this->pathPattern);
@@ -65,7 +69,7 @@ class Store implements Storage
     public function setBasePath($path)
     {
         if (is_dir($path)) {
-            $this->basePath = str_replace('//', '/', $path . '/');
+            $this->basePath = str_replace('//', '/', realpath($path) . '/');
         }
 
         throw new \InvalidArgumentException("Path '{$path}' does not exists or is not a directory.");
@@ -74,7 +78,8 @@ class Store implements Storage
     /**
      * Sets a new path generator
      *
-     * @param callable $generator A callable to generate new path names. Receives image reference as first parameter and base storage path as second parameter.
+     * @param callable $generator A callable to generate new path names. Receives image reference as first parameter
+     *                            and base storage path as second parameter.
      */
     public function setPathGenerator($generator)
     {

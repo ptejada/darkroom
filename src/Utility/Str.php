@@ -19,13 +19,19 @@ class Str
      */
     public static function random($length = 16)
     {
-        $str = '';
-        while (($len = strlen($str)) < $length) {
-            $size  = $length - $len;
-            $bytes = random_bytes($size);
-            $str   .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $size);
+        if (function_exists('random_bytes')) {
+            $str = '';
+            while (($len = strlen($str)) < $length) {
+                $size  = $length - $len;
+                $bytes = random_bytes($size);
+                $str   .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $size);
+            }
+            return $str;
         }
-        return $str;
+
+        // Fallback logic to generate random string
+        $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        return substr(str_shuffle(str_repeat($pool, ceil($length / strlen($pool)))), 1, $length);
     }
 
     /**
@@ -35,7 +41,7 @@ class Str
      *
      * @return null|string|string[]
      */
-    public static function name($pattern = '%6-%4-%6')
+    public static function name($pattern = '%6-%4-%7')
     {
         return preg_replace_callback(
             '/([a-zA-Z])|%(\d+)/',

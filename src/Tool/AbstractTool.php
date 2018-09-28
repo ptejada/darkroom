@@ -69,7 +69,7 @@ abstract class AbstractTool implements Tool
      *
      * @return bool
      */
-    public function applied()
+    final public function applied()
     {
         return $this->appliedFlag;
     }
