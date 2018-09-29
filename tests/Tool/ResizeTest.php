@@ -207,7 +207,7 @@ class ResizeTest extends DarkroomTestCase
 
         $image->edit()->resize()->to(500)->withImageFill($this->stampImage())->apply();
 
-        $this->assertEquals(4013373, imagecolorat($image->resource(), 80, 80));
+        $this->assertContains(imagecolorat($image->resource(), 80, 80), [4013373, 4079166]);
         $this->assertEquals(16777215, imagecolorat($image->resource(), 50, 250));
 
         $this->assertEquals(500, $image->width());
