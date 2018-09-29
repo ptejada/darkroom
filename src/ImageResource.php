@@ -66,7 +66,7 @@ class ImageResource implements BoxInterface
         $resource = $this->resource();
 
         if (is_string($target)) {
-            $target .= '.' . $this->extension();
+            $target .= $this->extension(true);
         }
 
         $saved = call_user_func($this->renderer, $resource, $target);
@@ -182,11 +182,13 @@ class ImageResource implements BoxInterface
     /**
      * Image file type extension
      *
+     * @param bool $withDot Include dot
+     *
      * @return string
      */
-    protected function extension()
+    protected function extension($withDot = false)
     {
-        return image_type_to_extension($this->type());
+        return image_type_to_extension($this->type(), $withDot);
     }
 
     /**

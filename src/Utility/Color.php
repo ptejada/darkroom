@@ -207,9 +207,7 @@ class Color
         }
 
         $cleanHex = trim($hexColor, "# ");
-        $length   = strlen($hexColor);
-
-        $red = $green = $blue = '00';
+        $length   = strlen($cleanHex);
 
         if ($length === 6) {
             // Split format AABBCC
@@ -221,6 +219,8 @@ class Color
                 $red   .= $red;
                 $green .= $green;
                 $blue  .= $blue;
+            } else {
+                throw new \InvalidArgumentException("Invalid hex color {$hexColor}");
             }
         }
 

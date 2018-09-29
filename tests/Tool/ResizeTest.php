@@ -6,7 +6,7 @@ use Darkroom\Tests\DarkroomTestCase;
 
 class ResizeTest extends DarkroomTestCase
 {
-    public function test_square_to_rectangle()
+    public function testSquareToRectangle()
     {
         $new_width  = 300;
         $new_height = 200;
@@ -21,7 +21,7 @@ class ResizeTest extends DarkroomTestCase
         $this->assertEquals($new_height, $image->height());
     }
 
-    public function test_rectangle_to_square()
+    public function testRectangleToSquare()
     {
         $dimension = 200;
         $image     = $this->rectangleImage();
@@ -36,7 +36,7 @@ class ResizeTest extends DarkroomTestCase
         $this->assertEquals($dimension, $image->height());
     }
 
-    public function test_square_auto_height()
+    public function testSquareAutoHeight()
     {
         $image          = $this->rectangleImage();
         $new_width      = 200;
@@ -56,7 +56,7 @@ class ResizeTest extends DarkroomTestCase
         $this->assertLessThanOrEqual($original_ratio + 0.01, $new_ratio);
     }
 
-    public function test_square_auto_width()
+    public function testSquareAutoWidth()
     {
         $image          = $this->rectangleImage();
         $new_width      = 200;
@@ -82,7 +82,7 @@ class ResizeTest extends DarkroomTestCase
      *
      * @dataProvider dimensionProvider
      */
-    public function test_any_distort($new_width, $new_height)
+    public function testAnyDistort($new_width, $new_height)
     {
         $square_image = $this->squareImage();
         $this->assertNotEquals($new_width, $square_image->width());
@@ -112,7 +112,7 @@ class ResizeTest extends DarkroomTestCase
         ];
     }
 
-    public function test_smaller_size_auto_width()
+    public function testSmallerSizeAutoWidth()
     {
         $image      = $this->rectangleImage();
         $new_width  = 148;
@@ -124,7 +124,7 @@ class ResizeTest extends DarkroomTestCase
         $this->assertEquals($new_width, $image->width());
     }
 
-    public function test_smaller_size_auto_height()
+    public function testSmallerSizeAutoHeight()
     {
         $image      = $this->rectangleImage();
         $new_width  = 148;
@@ -136,4 +136,91 @@ class ResizeTest extends DarkroomTestCase
         $this->assertEquals($new_width, $image->width());
     }
 
+    public function testResizeByPercent()
+    {
+        $image = $this->rectangleImage();
+
+        $image->edit()->resize()->by(0.5)->apply();
+
+        $this->assertEquals(400 / 2, $image->width());
+        $this->assertEquals(270 / 2, $image->height());
+    }
+
+    public function testUpscaleResize()
+    {
+        $image = $this->rectangleImage();
+
+        $image->edit()->resize()->by(1.5)->apply();
+
+        $this->assertEquals(400 * 1.5, $image->width());
+        $this->assertEquals(270 * 1.5, $image->height());
+    }
+
+    public function colorProvider()
+    {
+        return [
+            ['green'],
+            ['#008000'],
+            [[0, 128, 0]],
+        ];
+    }
+
+    /**
+     * @dataProvider  colorProvider
+     * @param mixed $color
+     */
+    public function testUpscaleWithColorFill($color)
+    {
+        $image = $this->squareImage();
+
+        $image->edit()->resize()->to(500)->withColorFill($color)->apply();
+
+        $rgbIndex = imagecolorat($image->resource(), 0 ,0);
+
+        $this->assertEquals(32768, $rgbIndex);
+
+        $this->assertEquals(500, $image->width());
+        $this->assertEquals(500, $image->height());
+    }
+
+    public function testUpscaleWithTransparentFill()
+    {
+        $image = $this->squareImage();
+
+        $image->edit()->resize()->to(500)->withTransparentFill()->apply();
+
+        $rgbIndex = imagecolorat($image->resource(), 0 ,0);
+        $channels = imagecolorsforindex($image->resource(), $rgbIndex);
+
+        $this->assertEquals(127, $channels['alpha']);
+        $this->assertEquals(0, $channels['red']);
+        $this->assertEquals(0, $channels['green']);
+        $this->assertEquals(0, $channels['blue']);
+
+        $this->assertEquals(500, $image->width());
+        $this->assertEquals(500, $image->height());
+    }
+
+    public function testUpscaleWithImageFill()
+    {
+        $image = $this->squareImage();
+
+        $image->edit()->resize()->to(500)->withImageFill($this->stampImage())->apply();
+
+        $this->assertEquals(4013373, imagecolorat($image->resource(), 50, 50));
+        $this->assertEquals(16777215, imagecolorat($image->resource(), 50, 250));
+
+        $this->assertEquals(500, $image->width());
+        $this->assertEquals(500, $image->height());
+    }
+
+    public function testInvalidExec()
+    {
+        $image = $this->squareImage();
+        $initial = $image->resource();
+        $image->edit()->resize();
+        $image->edit()->apply();
+
+        $this->assertSame($initial, $image->resource());
+    }
 }

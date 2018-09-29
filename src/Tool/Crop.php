@@ -2,8 +2,6 @@
 
 namespace Darkroom\Tool;
 
-use Darkroom\Editor;
-
 /**
  * Class Crop crops an image
  *
@@ -80,33 +78,15 @@ class Crop extends AbstractTool
         $width  = $this->width ?: ($image->width() - $this->at_y);
         $height = $this->height ?: ($image->height() - $this->at_x);
 
-        if (function_exists('imagecrop')) {
-            // PHP 5.5+ Crop
-            $img = imagecrop(
-                $image->resource(),
-                [
-                    'x'      => $this->at_x,
-                    'y'      => $this->at_y,
-                    'width'  => $width,
-                    'height' => $height,
-                ]
-            );
-        } else {
-            // PHP 5.4 Crop
-            $img = Editor::canvas($width, $height);
-            imagecopyresampled(
-                $img->resource(),
-                $image->resource(),
-                0,
-                0,
-                $this->at_x,
-                $this->at_y,
-                $width,
-                $height,
-                $width,
-                $height
-            );
-        }
+        $img = imagecrop(
+            $image->resource(),
+            [
+                'x'      => $this->at_x,
+                'y'      => $this->at_y,
+                'width'  => $width,
+                'height' => $height,
+            ]
+        );
 
         return $img;
     }

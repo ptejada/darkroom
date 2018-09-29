@@ -183,7 +183,7 @@ class Resize extends AbstractTool
             $sample_height = $newHeight;
         }
 
-        if ($newHeight && $newWidth) {
+        if ($newHeight != $source_height && $newWidth != $source_width) {
             $newImage = $this->background($newWidth, $newHeight);
             imagecopyresampled(
                 $newImage->resource(),
@@ -250,7 +250,7 @@ class Resize extends AbstractTool
         if ($this->isMode(self::MODE_IMAGE_FILL) && $this->fillImage) {
             $this->fillImage->edit()->resize()->to($width, $height)->distort()->apply();
             // TODO: Check if we must destroy the image first
-            $image = $this->fillImage->resource();
+            $image = $this->fillImage;
         }
 
         return $image;
@@ -283,13 +283,15 @@ class Resize extends AbstractTool
             $new_width  = $new_width ?: ($new_height * $original_width) / $original_height;
             $new_height = $new_height ?: ($new_width * $original_height) / $original_width;
         } else {
-            if (!$this->isMode(self::MODE_DISTORT)) {
-                if ($original_width > $new_width || $original_height > $new_height) {
-                    if ($original_width > $new_width) {
-                        $new_height = ($original_height / $original_width) * $new_height;
-                    } else {
-                        if ($original_height > $new_height) {
-                            $new_width = ($original_width / $original_height) * $new_width;
+            if (($new_width / $new_height) !== ($original_width / $original_height)) {
+                if (!$this->isMode(self::MODE_DISTORT)) {
+                    if ($original_width > $new_width || $original_height > $new_height) {
+                        if ($original_width > $new_width) {
+                            $new_height = ($original_height / $original_width) * $new_height;
+                        } else {
+                            if ($original_height > $new_height) {
+                                $new_width = ($original_width / $original_height) * $new_width;
+                            }
                         }
                     }
                 }
