@@ -183,7 +183,7 @@ class Color
                 $this->rgbColor = self::toRgb($redOrHex);
             }
         } else {
-            $this->rgbColor = [(int)$redOrHex, (int )$green, (int)$blue];
+            $this->rgbColor = [(int) $redOrHex, (int ) $green, (int) $blue];
         }
     }
 
@@ -272,7 +272,7 @@ class Color
         if (!empty($resource)) {
             if ($this->mode & self::MODE_ALLOCATE) {
                 list($red, $green, $blue) = $this->rgb();
-                return (int)imagecolorallocate($resource, $red, $green, $blue);
+                return (int) imagecolorallocate($resource, $red, $green, $blue);
             }
         }
 

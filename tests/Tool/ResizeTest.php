@@ -167,6 +167,7 @@ class ResizeTest extends DarkroomTestCase
 
     /**
      * @dataProvider  colorProvider
+     *
      * @param mixed $color
      */
     public function testUpscaleWithColorFill($color)
@@ -175,7 +176,7 @@ class ResizeTest extends DarkroomTestCase
 
         $image->edit()->resize()->to(500)->withColorFill($color)->apply();
 
-        $rgbIndex = imagecolorat($image->resource(), 0 ,0);
+        $rgbIndex = imagecolorat($image->resource(), 0, 0);
 
         $this->assertEquals(32768, $rgbIndex);
 
@@ -189,7 +190,7 @@ class ResizeTest extends DarkroomTestCase
 
         $image->edit()->resize()->to(500)->withTransparentFill()->apply();
 
-        $rgbIndex = imagecolorat($image->resource(), 0 ,0);
+        $rgbIndex = imagecolorat($image->resource(), 0, 0);
         $channels = imagecolorsforindex($image->resource(), $rgbIndex);
 
         $this->assertEquals(127, $channels['alpha']);
@@ -216,7 +217,7 @@ class ResizeTest extends DarkroomTestCase
 
     public function testInvalidExec()
     {
-        $image = $this->squareImage();
+        $image   = $this->squareImage();
         $initial = $image->resource();
         $image->edit()->resize();
         $image->edit()->apply();

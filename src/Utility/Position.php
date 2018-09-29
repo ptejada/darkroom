@@ -71,11 +71,11 @@ class Position
     protected function calcOffset($position)
     {
         if (is_array($position) && count($position) > 1) {
-            return [(int)$position[0], (int)$position[1]];
+            return [(int) $position[0], (int) $position[1]];
         }
 
         if (is_numeric($position)) {
-            return [(int)$position, (int)$position];
+            return [(int) $position, (int) $position];
         }
 
         if (is_string($position)) {
@@ -97,7 +97,7 @@ class Position
                 $positionY = isset($cords[1]) ? $cords[1] : $positionX;
 
                 // TODO: Do text base positioning
-                return [(int)$positionX, (int)$positionY];
+                return [(int) $positionX, (int) $positionY];
             }
         }
 

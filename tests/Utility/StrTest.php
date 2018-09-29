@@ -33,7 +33,7 @@ class StrTest extends \PHPUnit_Framework_TestCase
     {
         $list = [];
 
-        for($i = 0; $i < 5 ; $i++){
+        for ($i = 0; $i < 5; $i++) {
             $str = Str::random();
             $this->assertNotContains($str, $list);
             $list[] = $str;

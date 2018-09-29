@@ -44,8 +44,8 @@ class Resize extends AbstractTool
      */
     public function to($width, $height = 0)
     {
-        $this->width  = (int)$width;
-        $this->height = (int)$height;
+        $this->width  = (int) $width;
+        $this->height = (int) $height;
 
         $this->mode = ($this->width xor $this->height) ? self::MODE_RATIO : self::MODE_COLOR_FILL;
 
@@ -186,7 +186,8 @@ class Resize extends AbstractTool
         if ($newHeight != $source_height && $newWidth != $source_width) {
             $newImage = $this->background($newWidth, $newHeight);
             imagecopyresampled($newImage->resource(), $image->resource(), $target_x, $target_y, $source_x, $source_y,
-                $sample_width, $sample_height, $source_width, $source_height);
+                $sample_width, $sample_height, $source_width, $source_height
+            );
 
             return $newImage;
         }

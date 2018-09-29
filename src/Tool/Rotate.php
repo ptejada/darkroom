@@ -31,7 +31,7 @@ class Rotate extends AbstractTool
      */
     public function left($degrees)
     {
-        $this->angle = -(float)$degrees;
+        $this->angle = -(float) $degrees;
         return $this;
     }
 
@@ -44,7 +44,7 @@ class Rotate extends AbstractTool
      */
     public function right($degrees)
     {
-        $this->angle = abs((float)$degrees);
+        $this->angle = abs((float) $degrees);
         return $this;
     }
 

@@ -33,7 +33,9 @@ class ImageResource implements BoxInterface
             $this->type     = $this->type ?: IMAGETYPE_PNG;
             $this->renderer = $this->renderer ?: 'imagepng';
         } else {
-            throw new \InvalidArgumentException('Argument 1 passed to ' . __METHOD__ . ' must be a resource, ' . gettype($source) . 'given.');
+            throw new \InvalidArgumentException('Argument 1 passed to ' . __METHOD__ . ' must be a resource, ' . gettype($source
+                ) . 'given.'
+            );
         }
     }
 
@@ -63,8 +65,8 @@ class ImageResource implements BoxInterface
         $this->edit()->apply();
         $resource = $this->resource();
 
-        if (is_string($target) && ! pathinfo($target, PATHINFO_EXTENSION )) {
-             $target .= $this->extension(true);
+        if (is_string($target) && !pathinfo($target, PATHINFO_EXTENSION)) {
+            $target .= $this->extension(true);
         }
 
         $saved = call_user_func($this->renderer, $resource, $target);

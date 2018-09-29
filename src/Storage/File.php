@@ -70,7 +70,7 @@ class File
     public function save($content)
     {
         if (!$this->isURL()) {
-            file_put_contents($this->filePath(), (string)$content);
+            file_put_contents($this->filePath(), (string) $content);
         }
     }
 

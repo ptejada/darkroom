@@ -79,7 +79,7 @@ class Store implements Storage
             }
 
             $triesLeft--;
-        } while(is_string($path) && file_exists($path) && $triesLeft);
+        } while (is_string($path) && file_exists($path) && $triesLeft);
 
         if (is_string($path)) {
             if (!file_exists($path)) {

@@ -45,6 +45,7 @@ class Str
     {
         return preg_replace_callback('/([a-zA-Z])|%(\d+)/', function ($param){
             return count($param) === 3 ? self::random($param[2]) : date($param[1]);
-        }, $pattern);
+        }, $pattern
+        );
     }
 }
