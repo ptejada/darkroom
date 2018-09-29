@@ -24,7 +24,7 @@ class Store implements Storage
      */
     public function __construct()
     {
-        $this->pathPattern = 'Y-m/%6-%4-%6';
+        $this->pathPattern = 'Y-m/%32';
     }
 
     /**
@@ -37,9 +37,14 @@ class Store implements Storage
      */
     public function save(Image $image, $altName = null)
     {
-        $path = $altName ? $this->basePath() . $altName : $this->newPath($image, $altName);
+        $path = $this->newPath($image, $altName);
         if (is_string($path)) {
-            return $image->renderTo($path . '.' . $image->file()->extension());
+            $directory = dirname($path);
+            if (!is_dir($directory)) {
+                // Create missing directory
+                mkdir($directory, 0755, true);
+            }
+            return $image->renderTo($path);
         }
         return $path;
     }
@@ -54,22 +59,54 @@ class Store implements Storage
      */
     public function newPath(Image $image, $altName = null)
     {
-        if (is_callable($this->pathGenerator)) {
-            return call_user_func($this->pathGenerator, $image, $this->basePath(), $altName);
+        $triesLeft = 5;
+        do {
+            if (is_callable($this->pathGenerator)) {
+                $path = call_user_func($this->pathGenerator, $image, $this->basePath(), $altName);
+            } else {
+                $path = $this->basePath();
+                if ($altName) {
+                    $path .= $altName;
+                    $path .= $image->extension(true);
+
+                    if (file_exists($path)) {
+                        throw new \RuntimeException("The file already exist '{$path}'.");
+                    }
+                } else {
+                    $path .= Str::name($this->pathPattern);
+                    $path .= $image->extension(true);
+                }
+            }
+
+            $triesLeft--;
+        } while(is_string($path) && file_exists($path) && $triesLeft);
+
+        if (is_string($path)) {
+            if (!file_exists($path)) {
+                return $path;
+            }
+        } else {
+            return $path;
         }
 
-        return $this->basePath() . Str::name($this->pathPattern);
+        throw new \RuntimeException('Unable to generate new image file name.');
     }
 
     /**
      * Sets the storage base path
      *
      * @param string $path The base path as string
+     *
+     * @return Store
      */
     public function setBasePath($path)
     {
+        $path = rtrim($path, DIRECTORY_SEPARATOR);
+
         if (is_dir($path)) {
-            $this->basePath = str_replace('//', '/', realpath($path) . '/');
+            $this->basePath = realpath($path) . DIRECTORY_SEPARATOR;
+
+            return $this;
         }
 
         throw new \InvalidArgumentException("Path '{$path}' does not exists or is not a directory.");

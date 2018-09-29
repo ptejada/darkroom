@@ -2,7 +2,6 @@
 
 namespace Darkroom\Tool;
 
-
 use Darkroom\ImageEditor;
 
 /**
@@ -10,12 +9,13 @@ use Darkroom\ImageEditor;
  *
  * @package Darkroom\Tool
  */
-interface Tool {
+interface Tool
+{
     /**
      * Tool constructor.
      *
      * @param ImageEditor $imageEditor $imageEditor
-     * @param callable    $callback Callback executed when the image resource is updated
+     * @param callable    $callback    Callback executed when the image resource is updated
      */
     public function __construct(ImageEditor $imageEditor, callable $callback);
 

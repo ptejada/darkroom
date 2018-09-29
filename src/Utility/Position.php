@@ -4,6 +4,7 @@ namespace Darkroom\Utility;
 
 class Position
 {
+    protected $overflow = false;
     /**
      * @var BoxInterface
      */
@@ -12,15 +13,12 @@ class Position
      * @var BoxInterface
      */
     private $element;
-
     /**
      * The anchor placement of the element
      *
      * @var int[]
      */
-    private $element_anchor = [0,0];
-
-    protected $overflow = false;
+    private $element_anchor = [0, 0];
 
     public function __construct(BoxInterface $container, BoxInterface $element)
     {
@@ -73,11 +71,11 @@ class Position
     protected function calcOffset($position)
     {
         if (is_array($position) && count($position) > 1) {
-            return [(int) $position[0], (int) $position[1]];
+            return [(int)$position[0], (int)$position[1]];
         }
 
         if (is_numeric($position)) {
-            return [(int) $position, (int) $position];
+            return [(int)$position, (int)$position];
         }
 
         if (is_string($position)) {
@@ -94,12 +92,12 @@ class Position
             }
 
             if (isset($delimiter)) {
-                $cords = explode($delimiter, $position);
+                $cords     = explode($delimiter, $position);
                 $positionX = isset($cords[0]) ? $cords[0] : 0;
                 $positionY = isset($cords[1]) ? $cords[1] : $positionX;
 
                 // TODO: Do text base positioning
-                return [(int) $positionX, (int) $positionY];
+                return [(int)$positionX, (int)$positionY];
             }
         }
 

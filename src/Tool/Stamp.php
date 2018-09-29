@@ -15,7 +15,7 @@ class Stamp extends AbstractTool
     protected $stamp;
     /** @var int[][] */
     protected $placements = [];
-    /** @var float The opacity level between 1 and 0*/
+    /** @var float The opacity level between 1 and 0 */
     protected $opacity;
 
     /**
@@ -35,6 +35,7 @@ class Stamp extends AbstractTool
     /**
      * Specify the where to position the stamp
      * TODO: Add support for the position utility
+     *
      * @param int $x
      * @param int $y
      *
@@ -55,7 +56,7 @@ class Stamp extends AbstractTool
      */
     public function opacity($opacity)
     {
-        $opacity = $opacity > 1 ? 1 : $opacity;
+        $opacity       = $opacity > 1 ? 1 : $opacity;
         $this->opacity = 127 - round(127 * $opacity);
 
         return $this;
@@ -66,17 +67,18 @@ class Stamp extends AbstractTool
      */
     protected function execute()
     {
-        if ($this->stamp && ! empty($this->placements)) {
+        if ($this->stamp && !empty($this->placements)) {
             $baseImage = $this->editor->image();
             $stamp     = $this->stamp;
 
             if ($this->opacity) {
-                imagealphablending($stamp->resource(), false); // imagesavealpha can only be used by doing this for some reason
+                // imagesavealpha can only be used by doing this for some reason
+                imagealphablending($stamp->resource(), false);
                 imagesavealpha($stamp->resource(), true);
-                imagefilter($stamp->resource(), IMG_FILTER_COLORIZE, 0, 0,0, $this->opacity);
+                imagefilter($stamp->resource(), IMG_FILTER_COLORIZE, 0, 0, 0, $this->opacity);
             }
 
-            foreach ($this->placements as $cordidates){
+            foreach ($this->placements as $cordidates) {
                 list($at_x, $at_y) = $cordidates;
 
                 if ($at_x + $stamp->width() > $baseImage->width()) {
@@ -87,14 +89,7 @@ class Stamp extends AbstractTool
                     $at_y = $baseImage->height() - $stamp->height();
                 }
 
-                imagecopy(
-                    $baseImage->resource(),
-                    $stamp->resource(),
-                    $at_x,
-                    $at_y,
-                    0,
-                    0,
-                    $stamp->width(),
+                imagecopy($baseImage->resource(), $stamp->resource(), $at_x, $at_y, 0, 0, $stamp->width(),
                     $stamp->height()
                 );
             }

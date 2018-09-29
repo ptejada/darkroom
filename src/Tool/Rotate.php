@@ -11,7 +11,7 @@ use Darkroom\Utility\Color;
  */
 class Rotate extends AbstractTool
 {
-    const FILL_COLOR = 1;
+    const FILL_COLOR       = 1;
     const FILL_TRANSPARENT = 2;
 
     /** @var int The angle to rotate the image by */
@@ -26,6 +26,7 @@ class Rotate extends AbstractTool
      * Rotate the image to left
      *
      * @param float $degrees Degrees to rotate the image
+     *
      * @return $this
      */
     public function left($degrees)
@@ -38,6 +39,7 @@ class Rotate extends AbstractTool
      * Rotate the image to the right
      *
      * @param float $degrees Degrees to rotate the image
+     *
      * @return $this
      */
     public function right($degrees)
@@ -50,6 +52,7 @@ class Rotate extends AbstractTool
      * Specify the color for the uncovered zone of the image after the rotation
      *
      * @param string|Color $color Background color
+     *
      * @return $this
      */
     public function withColorFill($color = 'black')

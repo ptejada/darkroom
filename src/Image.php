@@ -53,11 +53,12 @@ class Image extends ImageResource
      * Save a snapshot of the image
      *
      * @param string $altPath Optional name path
+     *
      * @return File
      */
     public function save($altPath = null)
     {
-        return Editor::saveAs($this, $altPath);
+        return Editor::save($this, $altPath);
     }
 
     /**

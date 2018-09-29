@@ -7,15 +7,6 @@ use Darkroom\Image;
 class Color
 {
     const MODE_ALLOCATE = 1;
-    /** @var int[] The RGB color decimal values [R, G, B] */
-    protected $rgbColor;
-
-    /** @var int The color mode generator mode */
-    protected $mode = self::MODE_ALLOCATE;
-
-    /** @var bool The color transparency flag */
-    protected $transparency_flag = false;
-
     protected static $colorNames = [
         'aliceblue'            => 'F0F8FF',
         'antiquewhite'         => 'FAEBD7',
@@ -165,13 +156,19 @@ class Color
         'yellow'               => 'FFFF00',
         'yellowgreen'          => '9ACD32',
     ];
+    /** @var int[] The RGB color decimal values [R, G, B] */
+    protected $rgbColor;
+    /** @var int The color mode generator mode */
+    protected $mode = self::MODE_ALLOCATE;
+    /** @var bool The color transparency flag */
+    protected $transparency_flag = false;
 
     /**
      * Color constructor.
      *
      * @param  int|int[]|string $redOrHex The RGB red decimal value or full color in hex format
-     * @param int $green The RGB green decimal value
-     * @param int $blue The RGB blue decimal value
+     * @param int               $green    The RGB green decimal value
+     * @param int               $blue     The RGB blue decimal value
      */
     public function __construct($redOrHex, $green = null, $blue = null)
     {
@@ -186,7 +183,7 @@ class Color
                 $this->rgbColor = self::toRgb($redOrHex);
             }
         } else {
-            $this->rgbColor = [(int) $redOrHex, (int )$green, (int) $blue];
+            $this->rgbColor = [(int)$redOrHex, (int )$green, (int)$blue];
         }
     }
 
@@ -275,7 +272,7 @@ class Color
         if (!empty($resource)) {
             if ($this->mode & self::MODE_ALLOCATE) {
                 list($red, $green, $blue) = $this->rgb();
-                return (int) imagecolorallocate($resource, $red, $green, $blue);
+                return (int)imagecolorallocate($resource, $red, $green, $blue);
             }
         }
 

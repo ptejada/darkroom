@@ -10,7 +10,6 @@ use Darkroom\Tool\Tool;
 
 /**
  * Class ImageEditor
- *
  * @method Crop crop() Crop the image at the specified dimensions
  * @method Resize resize() Resize the image
  * @method Rotate rotate() Rotate the image
@@ -31,7 +30,7 @@ class ImageEditor
      * ImageEditor constructor.
      *
      * @param ImageResource $image
-     * @param callable $callback
+     * @param callable      $callback
      */
     public function __construct(ImageResource $image, callable $callback)
     {
@@ -68,8 +67,8 @@ class ImageEditor
     /**
      * Proxy calls to the tools factory
      *
-     * @param string $name The tool accessor name
-     * @param mixed[] $arguments initial params
+     * @param string  $name      The tool accessor name
+     * @param mixed[] $arguments Initial params
      *
      * @return Tool
      */

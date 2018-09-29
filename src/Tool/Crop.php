@@ -56,6 +56,7 @@ class Crop extends AbstractTool
     /**
      * Set the starting position of the upper left corner of the viewport
      * TODO: Add compatibility with the position utility
+     *
      * @param int $x X axis position in pixels
      * @param int $y Y axis position in pixels
      *
@@ -78,15 +79,12 @@ class Crop extends AbstractTool
         $width  = $this->width ?: ($image->width() - $this->at_y);
         $height = $this->height ?: ($image->height() - $this->at_x);
 
-        $img = imagecrop(
-            $image->resource(),
-            [
+        $img = imagecrop($image->resource(), [
                 'x'      => $this->at_x,
                 'y'      => $this->at_y,
                 'width'  => $width,
                 'height' => $height,
-            ]
-        );
+            ]);
 
         return $img;
     }

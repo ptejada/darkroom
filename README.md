@@ -5,6 +5,7 @@ implemented in the form of _tools_ which makes extending the image editor natura
 [![Build Status](https://img.shields.io/travis/ptejada/darkroom/master.svg?style=flat)](https://travis-ci.org/ptejada/darkroom)
 [![GitHub issues](https://img.shields.io/github/issues/ptejada/darkroom.svg)](https://github.com/ptejada/darkroom/issues)
 [![GitHub license](https://img.shields.io/github/license/ptejada/darkroom.svg)](https://github.com/ptejada/darkroom/blob/master/LICENSE)
+[![Codecov](https://img.shields.io/codecov/c/github/ptejada/darkroom.svg)](https://codecov.io/gh/ptejada/darkroom)
 
 # Requirements
 The Darkroom library has the following requirements:
@@ -186,7 +187,7 @@ $store->setPathPattern('%16');
 ```
 In the path pattern any letter character will be process by the PHP `date()` function and replaced with its output. 
 Any % follow by a number represents a random string where the number is the length of the string. Ex: `%6` will 
-generate a 6 characters long random string. The default pattern is`Y-m/%6-%4-%7`.
+generate a 6 characters long random string. The default pattern is`Y-m/%32`.
 
 ## Custom path generator
 

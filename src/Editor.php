@@ -7,7 +7,6 @@ use Darkroom\Tool\Tool;
 
 /**
  * Class Editor
- *
  * @method static Image open($imagePath) Opens an image.
  * @method static ImageResource canvas($width, $height) Creates a new blank canvas.
  * @method static File save(Image $image, $altName = null) Saves an image in the storage.

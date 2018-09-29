@@ -39,13 +39,6 @@ abstract class AbstractTool implements Tool
     }
 
     /**
-     * Apply the updates to the original image
-     *
-     * @return ImageResource The updated image resource
-     */
-    abstract protected function execute();
-
-    /**
      * Saves the changes to the image
      *
      * @return ImageEditor The image editor
@@ -73,4 +66,11 @@ abstract class AbstractTool implements Tool
     {
         return $this->appliedFlag;
     }
+
+    /**
+     * Apply the updates to the original image
+     *
+     * @return ImageResource The updated image resource
+     */
+    abstract protected function execute();
 }

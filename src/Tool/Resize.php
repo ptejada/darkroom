@@ -185,18 +185,8 @@ class Resize extends AbstractTool
 
         if ($newHeight != $source_height && $newWidth != $source_width) {
             $newImage = $this->background($newWidth, $newHeight);
-            imagecopyresampled(
-                $newImage->resource(),
-                $image->resource(),
-                $target_x,
-                $target_y,
-                $source_x,
-                $source_y,
-                $sample_width,
-                $sample_height,
-                $source_width,
-                $source_height
-            );
+            imagecopyresampled($newImage->resource(), $image->resource(), $target_x, $target_y, $source_x, $source_y,
+                $sample_width, $sample_height, $source_width, $source_height);
 
             return $newImage;
         }
