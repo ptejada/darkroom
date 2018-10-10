@@ -22,27 +22,30 @@ class Image extends ImageResource
     public function __construct(File $file)
     {
         $this->file = $file;
-        // TODO: Optimize this process use mime detection instead
-        $ext = strtolower($this->file->extension());
-        switch ($ext) {
-            case 'jpg':
-            case 'jpeg':
+        if (! $file->exists()) {
+            throw new \InvalidArgumentException('File can not be opened: ' . $file->filePath());
+        }
+
+        $this->mimeString = mime_content_type($file->filePath());
+
+        switch ($this->mimeString) {
+            case 'image/jpeg':
                 $this->resource = imagecreatefromjpeg($this->file->filePath());
-                $this->type     = IMAGETYPE_JPEG;
                 $this->renderer = 'imagejpeg';
+                $this->ext      = 'jpg';
                 break;
-            case 'png':
+            case 'image/png':
                 $this->resource = imagecreatefrompng($this->file->filePath());
-                $this->type     = IMAGETYPE_PNG;
                 $this->renderer = 'imagepng';
+                $this->ext      = 'png';
                 break;
-            case 'gif':
+            case 'image/gif':
                 $this->resource = imagecreatefromgif($this->file->filePath());
-                $this->type     = IMAGETYPE_GIF;
                 $this->renderer = 'imagegif';
+                $this->ext      = 'gif';
                 break;
             default:
-                // TODO: Handle unsupported image type
+                throw new \InvalidArgumentException("File type {$this->mimeString} is not supported.");
                 break;
         }
 

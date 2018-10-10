@@ -55,7 +55,7 @@ class EditorConfig
             return new Image($file);
         }
 
-        // TODO: Handle non existing files
+        throw new \RuntimeException('The not be opened or does not exists: ' . $imagePath);
     }
 
     /**

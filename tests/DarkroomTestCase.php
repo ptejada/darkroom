@@ -20,7 +20,7 @@ class DarkroomTestCase extends \PHPUnit\Framework\TestCase
      */
     protected function rectangleImage()
     {
-        return $this->editor->open(__DIR__ . '/sample_files/rectangle.jpg');
+        return $this->editor->open($this->sampleFile('rectangle.jpg'));
     }
 
     /**
@@ -28,7 +28,7 @@ class DarkroomTestCase extends \PHPUnit\Framework\TestCase
      */
     protected function squareImage()
     {
-        return $this->editor->open(__DIR__ . '/sample_files/square.jpg');
+        return $this->editor->open($this->sampleFile('square.jpg'));
     }
 
     /**
@@ -36,6 +36,18 @@ class DarkroomTestCase extends \PHPUnit\Framework\TestCase
      */
     protected function stampImage()
     {
-        return $this->editor->open(__DIR__ . '/sample_files/pt-tag.png');
+        return $this->editor->open($this->sampleFile('pt-tag.png'));
+    }
+
+    /**
+     * Get the full path of a sample file
+     *
+     * @param string $name Sample file name
+     *
+     * @return string
+     */
+    protected function sampleFile($name)
+    {
+        return __DIR__ . '/sample_files/' . $name;
     }
 }

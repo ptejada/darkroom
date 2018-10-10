@@ -14,8 +14,10 @@ class ImageResource implements BoxInterface
 {
     /** @var resource The image resource */
     protected $resource;
-    /** @var int The internal image type */
-    protected $type;
+    /** @var string The image type mime string */
+    protected $mimeString;
+    /** @var string The image extension to use */
+    protected $ext;
     /** @var callable The function to render the image */
     protected $renderer;
     /** @var ImageEditor Image editor with tools */
@@ -29,12 +31,13 @@ class ImageResource implements BoxInterface
     public function __construct($source)
     {
         if (is_resource($source)) {
-            $this->resource = $source;
-            $this->type     = $this->type ?: IMAGETYPE_PNG;
-            $this->renderer = $this->renderer ?: 'imagepng';
+            $this->resource   = $source;
+            $this->renderer   = $this->renderer ?: 'imagepng';
+            $this->mimeString = $this->mimeString ?: 'image/png';
+            $this->ext        = $this->ext ?: 'png';
         } else {
-            throw new \InvalidArgumentException('Argument 1 passed to ' . __METHOD__ . ' must be a resource, ' . gettype($source
-                ) . 'given.'
+            throw new \InvalidArgumentException(
+                'Argument 1 passed to ' . __METHOD__ . ' must be a resource, ' . gettype($source) . 'given.'
             );
         }
     }
@@ -113,18 +116,21 @@ class ImageResource implements BoxInterface
             case 'jpg':
             case 'jpeg':
             case IMAGETYPE_JPEG:
-                $this->type     = IMAGETYPE_JPEG;
-                $this->renderer = 'imagejpeg';
+                $this->ext        = 'jpg';
+                $this->mimeString = 'image/jpeg';
+                $this->renderer   = 'imagejpeg';
                 break;
             case 'png':
             case IMAGETYPE_PNG:
-                $this->type     = IMAGETYPE_PNG;
-                $this->renderer = 'imagepng';
+                $this->ext        = 'png';
+                $this->mimeString = 'image/png';
+                $this->renderer   = 'imagepng';
                 break;
             case 'gif':
             case IMAGETYPE_GIF:
-                $this->type     = IMAGETYPE_GIF;
-                $this->renderer = 'imagegif';
+                $this->ext        = 'gif';
+                $this->mimeString = 'image/gif';
+                $this->renderer   = 'imagegif';
                 break;
         }
     }
@@ -188,7 +194,7 @@ class ImageResource implements BoxInterface
      */
     public function extension($withDot = false)
     {
-        return image_type_to_extension($this->type(), $withDot);
+        return $withDot ? '.' . $this->ext : $this->ext;
     }
 
     /**
@@ -196,18 +202,8 @@ class ImageResource implements BoxInterface
      *
      * @return string
      */
-    protected function mime()
+    public function mime()
     {
-        return image_type_to_mime_type($this->type()) ?: 'application/octet-stream';
-    }
-
-    /**
-     * Image type
-     *
-     * @return int
-     */
-    protected function type()
-    {
-        return $this->type;
+        return $this->mimeString ?: 'application/octet-stream';
     }
 }
