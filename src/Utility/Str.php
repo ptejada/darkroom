@@ -43,7 +43,7 @@ class Str
      */
     public static function name($pattern = '%6-%4-%7')
     {
-        return preg_replace_callback('/([a-zA-Z])|%(\d+)/', function ($param){
+        return preg_replace_callback('/([a-zA-Z])|%(\d+)/', function ($param) {
             return count($param) === 3 ? self::random($param[2]) : date($param[1]);
         }, $pattern
         );

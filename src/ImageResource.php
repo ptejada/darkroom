@@ -137,7 +137,7 @@ class ImageResource implements BoxInterface
     public function edit()
     {
         if (empty($this->imageEditor)) {
-            $callback = function ($img){
+            $callback = function ($img) {
                 if (is_resource($img)) {
                     $this->resource = $img;
                 }

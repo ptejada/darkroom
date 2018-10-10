@@ -117,11 +117,14 @@ class Store implements Storage
      *
      * @param callable $generator A callable to generate new path names. Receives image reference as first parameter
      *                            and base storage path as second parameter.
+     *
+     * @return Store
      */
     public function setPathGenerator($generator)
     {
         if (is_callable($generator)) {
             $this->pathGenerator = $generator;
+            return $this;
         }
 
         throw new \InvalidArgumentException('Path generator must be callable, ' . gettype($generator) . ' given.');
@@ -133,14 +136,18 @@ class Store implements Storage
      * @see Str::name
      *
      * @param string $pattern The pattern.
+     *
+     * @return Store
      */
     public function setPathPattern($pattern)
     {
         if (is_string($pattern)) {
             $this->pathPattern = $pattern;
-        } else {
-            throw new \InvalidArgumentException('The pattern must be a string, ' . gettype($pattern) . ' given.');
+
+            return $this;
         }
+
+        throw new \InvalidArgumentException('The pattern must be a string, ' . gettype($pattern) . ' given.');
     }
 
     /**

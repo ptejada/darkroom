@@ -80,11 +80,11 @@ class Crop extends AbstractTool
         $height = $this->height ?: ($image->height() - $this->at_x);
 
         $img = imagecrop($image->resource(), [
-            'x'      => $this->at_x,
-            'y'      => $this->at_y,
-            'width'  => $width,
-            'height' => $height,
-        ]
+                'x'      => $this->at_x,
+                'y'      => $this->at_y,
+                'width'  => $width,
+                'height' => $height,
+            ]
         );
 
         return $img;
