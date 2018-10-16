@@ -169,8 +169,9 @@ class Color
      * @param  int|int[]|string $redOrHex The RGB red decimal value or full color in hex format
      * @param int               $green    The RGB green decimal value
      * @param int               $blue     The RGB blue decimal value
+     * @param int               $alpha    Transparency
      */
-    public function __construct($redOrHex, $green = null, $blue = null)
+    public function __construct($redOrHex, $green = null, $blue = null, $alpha = 0)
     {
         if (is_null($green) && is_null($blue)) {
             if (is_array($redOrHex)) {
@@ -178,29 +179,35 @@ class Color
                     isset($redOrHex[0]) ? $redOrHex[0] : 0,
                     isset($redOrHex[1]) ? $redOrHex[1] : 0,
                     isset($redOrHex[2]) ? $redOrHex[2] : 0,
+                    isset($redOrHex[3]) ? $redOrHex[3] : 0,
                 ];
             } else {
                 $this->rgbColor = self::toRgb($redOrHex);
             }
         } else {
-            $this->rgbColor = [(int) $redOrHex, (int ) $green, (int) $blue];
+            $this->rgbColor = [(int) $redOrHex, (int ) $green, (int) $blue, (int) $alpha];
         }
     }
 
     /**
      * Convert Hex base color to RGB
      *
-     * @param string $hexColor Color string in hex format
+     * @param string $hexColor     Color string in hex format
+     * @param float  $transparency A decimal indicating the transparency level. 1 opaque and 0 full transparent
      *
      * @return int[] The Returns the RGB decimal values[red, green, blue]
      */
-    public static function toRgb($hexColor)
+    public static function toRgb($hexColor, $transparency = 1.0)
     {
         $hexColor = strtolower($hexColor);
 
+        if ($transparency > 1) {
+            throw new \InvalidArgumentException('The transparency parameter can be greater than 1.0');
+        }
+
         // Check named colors first
         if (isset(self::$colorNames[$hexColor])) {
-            return self::toRgb(self::$colorNames[$hexColor]);
+            return self::toRgb(self::$colorNames[$hexColor], $transparency);
         }
 
         $cleanHex = trim($hexColor, "# ");
@@ -221,7 +228,7 @@ class Color
             }
         }
 
-        return [hexdec($red), hexdec($green), hexdec($blue)];
+        return [hexdec($red), hexdec($green), hexdec($blue), (1 - $transparency) * 127];
     }
 
     /**
@@ -271,8 +278,8 @@ class Color
 
         if (!empty($resource)) {
             if ($this->mode & self::MODE_ALLOCATE) {
-                list($red, $green, $blue) = $this->rgb();
-                return (int) imagecolorallocate($resource, $red, $green, $blue);
+                list($red, $green, $blue, $alpha) = $this->rgb();
+                return (int) imagecolorallocatealpha($resource, $red, $green, $blue, $alpha);
             }
         }
 

@@ -84,7 +84,7 @@ class Rotate extends AbstractTool
             $image = $this->editor->image()->resource();
 
             if (!$this->color) {
-                $this->color = new Color(0);
+                $this->color = new Color('black');
             }
 
             if ($this->transparent) {
