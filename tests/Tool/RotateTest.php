@@ -38,7 +38,7 @@ class RotateTest extends DarkroomTestCase
         $this->assertEquals(0, $channels['green']);
         $this->assertEquals(0, $channels['blue']);
 
-        $this->assertGreaterThan(280, $image->width());
+        $this->assertGreaterThan(270, $image->width());
     }
 
     public function testLeft()
@@ -66,6 +66,6 @@ class RotateTest extends DarkroomTestCase
         $this->assertEquals(70, $channels['green']);
         $this->assertEquals(80, $channels['blue']);
 
-        $this->assertGreaterThan(280, $image->width());
+        $this->assertGreaterThan(270, $image->width());
     }
 }
