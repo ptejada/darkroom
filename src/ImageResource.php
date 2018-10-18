@@ -37,7 +37,7 @@ class ImageResource implements BoxInterface
             $this->ext        = $this->ext ?: 'png';
         } else {
             throw new \InvalidArgumentException(
-                'Argument 1 passed to ' . __METHOD__ . ' must be a resource, ' . gettype($source) . 'given.'
+                'Argument 1 passed to ' . __METHOD__ . ' must be a resource, ' . gettype($source) . ' given.'
             );
         }
     }
@@ -108,7 +108,7 @@ class ImageResource implements BoxInterface
     /**
      * Convert the image to different format
      *
-     * @param int $imageType
+     * @param int|string $imageType
      */
     public function convertTo($imageType)
     {

@@ -81,6 +81,9 @@ class Stamp extends AbstractTool
             foreach ($this->placements as $cordidates) {
                 list($at_x, $at_y) = $cordidates;
 
+                $at_x = $at_x < 0 ? 0 : $at_x;
+                $at_y = $at_y < 0 ? 0 : $at_y;
+
                 if ($at_x + $stamp->width() > $baseImage->width()) {
                     $at_x = $baseImage->width() - $stamp->width();
                 }

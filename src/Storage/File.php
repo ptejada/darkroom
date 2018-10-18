@@ -63,25 +63,13 @@ class File
     }
 
     /**
-     * Save content to file
-     *
-     * @param mixed $content The content to save to the file
-     */
-    public function save($content)
-    {
-        if (!$this->isURL()) {
-            file_put_contents($this->filePath(), (string) $content);
-        }
-    }
-
-    /**
      * Check if it is an URL
      *
-     * @return string
+     * @return bool
      */
     public function isURL()
     {
-        return filter_var($this->filePath(), FILTER_VALIDATE_URL);
+        return filter_var($this->filePath(), FILTER_VALIDATE_URL) !== false;
     }
 
     /**
