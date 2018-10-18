@@ -99,7 +99,7 @@ class StoreTest extends DarkroomTestCase
         $store     = new Store();
         $imageFile = $this->squareImage();
 
-        $store->setPathGenerator(function() use ($imageFile){
+        $store->setPathGenerator(function () use ($imageFile) {
             return $imageFile->file()->filePath();
         });
 

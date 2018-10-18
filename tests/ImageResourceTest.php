@@ -56,5 +56,4 @@ class ImageResourceTest extends DarkroomTestCase
         $img->convertTo(IMAGETYPE_GIF);
         $this->assertEquals('gif', $img->extension());
     }
-
 }

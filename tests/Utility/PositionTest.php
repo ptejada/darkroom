@@ -7,7 +7,6 @@ use Darkroom\Utility\Position;
 
 class PositionTest extends DarkroomTestCase
 {
-
     /**
      * @param mixed $pos
      * @param int[] $outcome

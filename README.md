@@ -1,11 +1,12 @@
 # Darkroom
+
 Darkroom is a library that facilitates simple image manipulation operations in PHP. The core functionality of the library is 
 implemented in the form of _tools_ which makes extending the image editor natural and intuitive.
 
-[![Build Status](https://img.shields.io/travis/ptejada/darkroom/master.svg?style=flat)](https://travis-ci.org/ptejada/darkroom)
-[![GitHub issues](https://img.shields.io/github/issues/ptejada/darkroom.svg)](https://github.com/ptejada/darkroom/issues)
-[![GitHub license](https://img.shields.io/github/license/ptejada/darkroom.svg)](https://github.com/ptejada/darkroom/blob/master/LICENSE)
-[![Codecov](https://img.shields.io/codecov/c/github/ptejada/darkroom.svg)](https://codecov.io/gh/ptejada/darkroom)
+[![Build Status](https://travis-ci.org/ptejada/darkroom.svg?branch=master)](https://travis-ci.org/ptejada/darkroom)
+[![StyleCI](https://github.styleci.io/repos/116521231/shield?branch=master)](https://github.styleci.io/repos/116521231)
+[![Maintainability](https://api.codeclimate.com/v1/badges/dc02c2d048e626a55f8a/maintainability)](https://codeclimate.com/github/ptejada/darkroom/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/dc02c2d048e626a55f8a/test_coverage)](https://codeclimate.com/github/ptejada/darkroom/test_coverage)
 
 # Requirements
 The Darkroom library has the following requirements:
