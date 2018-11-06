@@ -8,7 +8,7 @@ use Darkroom\Tool\Tool;
 /**
  * Class Editor
  * @method static Image open($imagePath) Opens an image.
- * @method static ImageResource canvas($width, $height) Creates a new blank canvas.
+ * @method static ImageResource canvas($width, $height = 0) Creates a new blank canvas.
  * @method static File save(Image $image, $altName = null) Saves an image in the storage.
  * @method static void registerTool($accessorName, $toolClass) Registers a new editor tool.
  * @method static Tool makeTool($name, ImageEditor $toolClass, $updater) Create new tool instance by accessor name.

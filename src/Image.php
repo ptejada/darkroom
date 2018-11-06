@@ -23,7 +23,7 @@ class Image extends ImageResource
     {
         $this->file = $file;
         if (! $file->exists()) {
-            throw new \InvalidArgumentException('File can not be opened: ' . $file->filePath());
+            throw new \InvalidArgumentException('Cannot open file: ' . $file->filePath());
         }
 
         $this->mimeString = mime_content_type($file->filePath());

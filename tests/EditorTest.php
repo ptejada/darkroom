@@ -21,4 +21,12 @@ class EditorTest extends DarkroomTestCase
         $this->assertEquals(100, $image->width());
         $this->assertEquals(200, $image->height());
     }
+
+    public function testInvalidStaticMethod()
+    {
+        $this->expectException(\BadMethodCallException::class);
+        $this->expectExceptionMessage('Call to undefined function: Darkroom\EditorConfig::testAction().');
+
+        Editor::testAction();
+    }
 }

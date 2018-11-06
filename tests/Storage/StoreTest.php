@@ -16,7 +16,9 @@ class StoreTest extends DarkroomTestCase
         $fileExt   = $imageFile->extension();
 
         /** @var Image| \PHPUnit_Framework_MockObject_MockObject $image */
-        $image = $this->getMockBuilder(Image::class)->setConstructorArgs([$imageFile])->setMethods(['extension'])
+        $image = $this->getMockBuilder(Image::class)
+            ->setConstructorArgs([$imageFile])
+            ->setMethods(['extension'])
             ->getMock();
 
         $image->expects($this->exactly(2))->method('extension')->with($this->isTrue())->willReturn('.' . $fileExt);
@@ -71,7 +73,8 @@ class StoreTest extends DarkroomTestCase
 
         $random = 'generatedName';
 
-        $generator->expects($this->once())->method('__invoke')
+        $generator->expects($this->once())
+            ->method('__invoke')
             ->with($this->equalTo($imageFile), $this->equalTo(__DIR__ . '/'), $this->equalTo('altName'))
             ->willReturn($random);
 
@@ -115,5 +118,39 @@ class StoreTest extends DarkroomTestCase
         $this->expectExceptionMessage('Path generator must be callable, string given.');
 
         (new Store())->setPathGenerator('customFunction');
+    }
+
+    public function testInvalidPath()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('does not exists or is not a directory.');
+
+        (new Store())->setBasePath('/var/test/' . time());
+    }
+
+    /**
+     * @return array
+     */
+    public function invalidPatternProvider()
+    {
+        return [
+            [true],
+            [false],
+            [0123],
+            [function () { return false; }],
+        ];
+    }
+
+    /**
+     * @param mixed $pattern
+     *
+     * @dataProvider invalidPatternProvider
+     */
+    public function testInvalidPathPattern($pattern)
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The pattern must be a string');
+
+        (new Store())->setPathPattern($pattern);
     }
 }
