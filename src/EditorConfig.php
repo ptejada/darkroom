@@ -18,7 +18,7 @@ use Darkroom\Tool\Tool;
  */
 class EditorConfig
 {
-    /** @var Tool[] The list of tools */
+    /** @var string[] The list of tool classes */
     protected $tools;
     /** @var Storage Image storage */
     protected $storage;
@@ -78,7 +78,7 @@ class EditorConfig
      * @param Image  $image   The image reference
      * @param string $altName Alternative file name
      *
-     * @return File A reference of the saved file
+     * @return bool|File A reference of the saved file or a boolean indicating the save status
      */
     public function save(Image $image, $altName = null)
     {

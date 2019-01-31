@@ -22,7 +22,8 @@ abstract class AbstractTool implements Tool
     /**
      * Crop constructor.
      *
-     * @param $imageEditor $imageEditor
+     * @param ImageEditor $imageEditor Image editor reference
+     * @param callable    $callback    Updater handler
      */
     public function __construct(ImageEditor $imageEditor, callable $callback)
     {
@@ -70,7 +71,7 @@ abstract class AbstractTool implements Tool
     /**
      * Apply the updates to the original image
      *
-     * @return ImageResource The updated image resource
+     * @return ImageResource|resource The updated image resource
      */
     abstract protected function execute();
 }

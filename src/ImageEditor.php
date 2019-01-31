@@ -19,7 +19,7 @@ use Darkroom\Tool\Tool;
  */
 class ImageEditor
 {
-    /** @var Image The image to edit */
+    /** @var ImageResource The image to edit */
     protected $image;
     /** @var callable The callback to update the original image */
     protected $updater;
@@ -42,7 +42,7 @@ class ImageEditor
     /**
      * The image reference
      *
-     * @return Image The image reference
+     * @return ImageResource The image reference
      */
     public function image()
     {
