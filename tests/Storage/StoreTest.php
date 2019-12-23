@@ -137,7 +137,9 @@ class StoreTest extends DarkroomTestCase
             [true],
             [false],
             [0123],
-            [function () { return false; }],
+            [function () {
+                return false;
+            }],
         ];
     }
 
